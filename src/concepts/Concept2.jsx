@@ -116,7 +116,7 @@ export default function Concept2() {
               className="font-serif text-ivory font-light leading-none mb-5"
               style={{ fontSize: 'clamp(2.8rem, 4vw, 5.2rem)', letterSpacing: '-0.025em' }}
             >
-              Elara<br />Voss
+              Ola<br />Apokalipsa
             </h1>
             <div className="h-px w-12 mb-5" style={{ background: 'rgba(212,175,55,0.5)' }} />
             <p className="font-serif italic font-light leading-relaxed max-w-xs" style={{ color: 'rgba(200,198,193,0.75)', fontSize: '1.05rem' }}>
@@ -157,7 +157,7 @@ export default function Concept2() {
             className="md:hidden flex items-center justify-between px-6 py-5 sticky top-0 z-50 backdrop-blur-md"
             style={{ background: 'rgba(10,10,10,0.92)', borderBottom: '1px solid rgba(212,175,55,0.1)' }}
           >
-            <span className="font-serif text-ivory tracking-[0.3em] text-sm">E · V</span>
+            <span className="font-serif text-ivory tracking-[0.3em] text-sm">O · A</span>
             <div className="flex gap-5">
               {['About', 'Services', 'Contact'].map(item => (
                 <a key={item} href={`#c2-${item.toLowerCase()}`} className="text-[10px] tracking-widest uppercase text-muted-gray hover:text-gold transition-colors">{item}</a>
@@ -185,7 +185,7 @@ export default function Concept2() {
               For those who seek clarity with intention. A private practice refined over two decades of dedicated study and counsel.
             </motion.p>
             <motion.a
-              href="mailto:hello@elaravoss.com"
+              href="mailto:hello@olaapokalipsa.com"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 1.25, ease }}
@@ -225,7 +225,7 @@ export default function Concept2() {
               transition={{ duration: 0.9, delay: 0.15, ease }}
               className="text-muted-white font-light leading-relaxed max-w-md text-sm md:text-base"
             >
-              Elara works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
+              Ola works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
             </motion.p>
           </section>
 
@@ -293,14 +293,14 @@ export default function Concept2() {
               Begin your<br /><em>consultation.</em>
             </motion.h2>
             <motion.a
-              href="mailto:hello@elaravoss.com"
+              href="mailto:hello@olaapokalipsa.com"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               className="block font-serif italic text-lg text-muted-white hover:text-gold transition-colors duration-300 mb-8"
             >
-              hello@elaravoss.com
+              hello@olaapokalipsa.com
             </motion.a>
             <div className="flex gap-8 mb-16">
               {['Instagram', 'LinkedIn'].map((s) => (
@@ -308,7 +308,7 @@ export default function Concept2() {
               ))}
             </div>
             <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color: 'rgba(120,118,114,0.35)' }}>
-              © 2025 Elara Voss
+              © 2025 Ola Apokalipsa
             </p>
           </section>
         </div>

@@ -51,7 +51,7 @@ export default function Concept1() {
           transition={{ duration: 1 }}
           className="font-serif text-ivory text-base tracking-[0.3em]"
         >
-          E · V
+          O · A
         </motion.span>
         <motion.div
           initial={{ opacity: 0 }}
@@ -86,7 +86,7 @@ export default function Concept1() {
           className="font-serif font-light text-ivory leading-none overflow-hidden"
           style={{ fontSize: 'clamp(3.5rem, 9vw, 8.5rem)', letterSpacing: '-0.015em' }}
         >
-          {'Elara Voss'.split(' ').map((word, i) => (
+          {'Ola Apokalipsa'.split(' ').map((word, i) => (
             <motion.span
               key={word}
               className="inline-block"
@@ -118,7 +118,7 @@ export default function Concept1() {
         </motion.p>
 
         <motion.a
-          href="mailto:hello@elaravoss.com"
+          href="mailto:hello@olaapokalipsa.com"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
           transition={{ duration: 0.9, delay: 1.15, ease }}
@@ -159,7 +159,7 @@ export default function Concept1() {
           transition={{ duration: 0.9, delay: 0.2, ease }}
           className="text-muted-white font-light text-base leading-relaxed"
         >
-          Elara works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
+          Ola works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
         </motion.p>
       </section>
 
@@ -222,14 +222,14 @@ export default function Concept1() {
         <Divider mx="mx-auto" />
         <div className="mt-10" />
         <motion.a
-          href="mailto:hello@elaravoss.com"
+          href="mailto:hello@olaapokalipsa.com"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
           className="font-serif italic text-xl md:text-2xl text-muted-white hover:text-gold transition-colors duration-300"
         >
-          hello@elaravoss.com
+          hello@olaapokalipsa.com
         </motion.a>
         <div className="flex items-center justify-center gap-10 mt-12">
           {['Instagram', 'LinkedIn'].map((s) => (
@@ -237,7 +237,7 @@ export default function Concept1() {
           ))}
         </div>
         <p className="text-[10px] tracking-[0.25em] uppercase mt-16" style={{ color: 'rgba(120,118,114,0.4)' }}>
-          © 2025 Elara Voss · All rights reserved
+          © 2025 Ola Apokalipsa · All rights reserved
         </p>
       </section>
     </div>

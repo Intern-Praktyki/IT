@@ -45,7 +45,7 @@ export default function Concept3() {
           className="flex items-center gap-3"
         >
           <div className="h-px w-5 bg-gold" />
-          <span className="font-serif text-ivory text-sm tracking-[0.2em]">Elara Voss</span>
+          <span className="font-serif text-ivory text-sm tracking-[0.2em]">Ola Apokalipsa</span>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 15 }}
@@ -91,7 +91,7 @@ export default function Concept3() {
           className="font-serif text-ivory font-light leading-none relative z-10"
           style={{ fontSize: 'clamp(3.5rem, 8.5vw, 8.5rem)', letterSpacing: '-0.02em' }}
         >
-          Elara
+          Ola
         </motion.h1>
 
         <motion.div
@@ -126,7 +126,7 @@ export default function Concept3() {
           className="flex items-center gap-6 flex-wrap"
         >
           <a
-            href="mailto:hello@elaravoss.com"
+            href="mailto:hello@olaapokalipsa.com"
             className="group relative inline-block overflow-hidden px-8 py-3.5 text-[10px] tracking-[0.35em] uppercase text-gold"
             style={{ border: '1px solid rgba(212,175,55,0.35)' }}
           >
@@ -191,7 +191,7 @@ export default function Concept3() {
               transition={{ duration: 0.9, delay: 0.15, ease }}
               className="text-muted-white font-light leading-relaxed max-w-lg text-sm md:text-base"
             >
-              Elara works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
+              Ola works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
             </motion.p>
           </div>
         </div>
@@ -288,7 +288,7 @@ export default function Concept3() {
             className="flex flex-wrap gap-4 mb-10"
           >
             <a
-              href="mailto:hello@elaravoss.com"
+              href="mailto:hello@olaapokalipsa.com"
               className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase text-gold"
               style={{ border: '1px solid rgba(212,175,55,0.35)' }}
             >
@@ -298,14 +298,14 @@ export default function Concept3() {
           </motion.div>
 
           <motion.a
-            href="mailto:hello@elaravoss.com"
+            href="mailto:hello@olaapokalipsa.com"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
             className="block font-serif italic text-lg text-muted-white hover:text-gold transition-colors duration-300 mb-10"
           >
-            hello@elaravoss.com
+            hello@olaapokalipsa.com
           </motion.a>
 
           <div className="flex gap-8 mb-16">
@@ -314,7 +314,7 @@ export default function Concept3() {
             ))}
           </div>
           <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color: 'rgba(120,118,114,0.35)' }}>
-            © 2025 Elara Voss · All rights reserved
+            © 2025 Ola Apokalipsa · All rights reserved
           </p>
         </div>
       </section>
