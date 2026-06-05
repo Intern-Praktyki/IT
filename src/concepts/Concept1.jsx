@@ -10,23 +10,18 @@ const SERVICES = [
     name: 'Nazwa usługi 1',
     // Krótki podtytuł/format, np. "Tarot · 60 min" albo "online / stacjonarnie"
     sub: 'Podtytuł · czas trwania',
-    // 2-3 zdania własnymi słowami: co dokładnie dostaję, jak to wygląda, dla kogo jest
-    desc: '← Opisz tę usługę po swojemu. Co się dzieje podczas sesji? Czego może się spodziewać klient? Dla kogo to jest?',
-    // Twoja cena, np. "od 280 zł" / "250 zł / h" / "od 200 zł"
     price: 'od ?? zł',
   },
   {
     num: '02',
     name: 'Nazwa usługi 2',
     sub: 'Podtytuł · czas trwania',
-    desc: '← Tu opisz drugą usługę. Co zawiera? Czy dostaję nagranie, PDF, opis? Jak długo czeka się na efekt?',
     price: 'od ?? zł',
   },
   {
     num: '03',
     name: 'Nazwa usługi 3',
     sub: 'Podtytuł · format',
-    desc: '← Jeśli robisz eventy/grupy — napisz dla ilu osób, jak wygląda taki wieczór, gdzie możesz dojechać.',
     price: 'Wycena indywidualna',
   },
 ]
@@ -212,8 +207,7 @@ export default function Concept1() {
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="text-[10px] tracking-[0.45em] uppercase text-gold mb-10 font-light"
         >
-          {/* ← Twój "tagline" nad imieniem, np. "Tarot · Astrologia · Warszawa" */}
-          Tarot · Astrologia · [Twoje miasto]
+          Tarot · Astrologia · Warszawa
         </motion.p>
 
         <h1
@@ -320,7 +314,6 @@ export default function Concept1() {
               <p className="text-[10px] tracking-[0.35em] uppercase text-gold mb-2">{s.sub}</p>
               <h3 className="font-serif text-ivory text-2xl font-light mb-4">{s.name}</h3>
               <div className="h-px w-8 mx-auto mb-4" style={{ background: 'rgba(212,175,55,0.4)' }} />
-              <p className="text-muted-gray text-sm leading-relaxed mb-6 font-light">{s.desc}</p>
               <p className="text-gold text-xs tracking-[0.2em]">{s.price}</p>
             </motion.div>
           ))}
