@@ -69,7 +69,7 @@ function Reveal({ children, delay = 0, y = 24, className = '' }) {
 function CitiesTicker() {
   return (
     <div
-      className="w-full overflow-hidden py-5"
+      className="w-full overflow-hidden py-7"
       style={{ borderTop: '1px solid rgba(212,175,55,0.08)', borderBottom: '1px solid rgba(212,175,55,0.08)' }}
     >
       <style>{`
@@ -88,12 +88,12 @@ function CitiesTicker() {
         {CITIES.map((city, i) => (
           <span key={i} className="flex items-center">
             <span
-              className="text-[10px] tracking-[0.4em] uppercase whitespace-nowrap px-6"
-              style={{ color: 'rgba(212,175,55,0.45)' }}
+              className="text-sm tracking-[0.4em] uppercase whitespace-nowrap px-8"
+              style={{ color: 'rgba(212,175,55,0.55)' }}
             >
               {city}
             </span>
-            <span style={{ color: 'rgba(212,175,55,0.2)', fontSize: 6 }}>◆</span>
+            <span style={{ color: 'rgba(212,175,55,0.25)', fontSize: 7 }}>◆</span>
           </span>
         ))}
       </div>
@@ -201,7 +201,7 @@ export default function Concept1() {
       </nav>
 
       {/* HERO */}
-      <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
@@ -257,10 +257,12 @@ export default function Concept1() {
           <span className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
           <span className="relative group-hover:text-obsidian transition-colors duration-500">Book a Session</span>
         </motion.a>
-      </section>
 
-      {/* CITIES TICKER */}
-      <CitiesTicker />
+        {/* Ticker przyklejony do dołu hero */}
+        <div className="absolute bottom-0 inset-x-0">
+          <CitiesTicker />
+        </div>
+      </section>
 
       {/* ABOUT */}
       <section id="about" className="py-36 px-6 max-w-xl mx-auto text-center">
