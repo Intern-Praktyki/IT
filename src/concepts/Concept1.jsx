@@ -15,38 +15,42 @@ const THEMES = [
   {
     id: 'witch',
     label: 'Witch',
-    bg: '#0C0814', bgRgb: '12,8,20',
-    accent: '#A78BFA', rgb: '167,139,250',
-    text: '#F0EBF8', textMuted: '#C4B8D4', gray: '#7A6080',
-    // dark crystals / amethyst vibe
-    image: 'https://images.unsplash.com/photo-1518611507436-f9221403cca2?w=1920&q=80&fit=crop',
+    bg: '#09060F', bgRgb: '9,6,15',
+    // amethyst — pairs with gold like royalty
+    accent: '#9B72CF', rgb: '155,114,207',
+    text: '#F2EEF8', textMuted: '#C8C0D8', gray: '#7A7080',
+    // tarot deck + crystals + books — photo by Joanna Kosinska
+    image: 'https://images.unsplash.com/photo-2rciqMXWj_c?w=1920&q=80&fit=crop',
   },
   {
-    id: 'forest',
-    label: 'Forest',
+    id: 'jade',
+    label: 'Jade',
     bg: '#060D07', bgRgb: '6,13,7',
-    accent: '#6EAB7C', rgb: '110,171,124',
-    text: '#EDF5ED', textMuted: '#B2CBB2', gray: '#5E735E',
-    // dark misty forest
-    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80&fit=crop',
+    // deep jade — emerald luxury meets gold
+    accent: '#5E9E70', rgb: '94,158,112',
+    text: '#EDF5EE', textMuted: '#B2CBB5', gray: '#5E7360',
+    // close-up fern leaf in the dark — moody botanical ritual
+    image: 'https://images.unsplash.com/photo-FQ_mwUG7pzM?w=1920&q=80&fit=crop',
   },
   {
-    id: 'dusk',
-    label: 'Dusk',
-    bg: '#0D0905', bgRgb: '13,9,5',
-    accent: '#D4956A', rgb: '212,149,106',
-    text: '#F5EFEA', textMuted: '#C8B5A8', gray: '#7A6558',
-    // dramatic warm landscape / desert dunes
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&fit=crop',
+    id: 'ritual',
+    label: 'Ritual',
+    bg: '#0D0708', bgRgb: '13,7,8',
+    // muted rose-bordeaux — candle warmth paired with gold
+    accent: '#C27A82', rgb: '194,122,130',
+    text: '#F5EEEF', textMuted: '#CDB8BB', gray: '#7A6065',
+    // candle + tarot cards on table — warm candlelit atmosphere
+    image: 'https://images.unsplash.com/photo-WS6mBfVe3dQ?w=1920&q=80&fit=crop',
   },
   {
-    id: 'glacier',
-    label: 'Glacier',
-    bg: '#05080F', bgRgb: '5,8,15',
-    accent: '#93C5FD', rgb: '147,197,253',
-    text: '#ECF2FA', textMuted: '#B5C5D8', gray: '#5A6878',
-    // cold winter landscape / ice
-    image: 'https://images.unsplash.com/photo-1477346611705-65d1883cee1e?w=1920&q=80&fit=crop',
+    id: 'celestial',
+    label: 'Celestial',
+    bg: '#060810', bgRgb: '6,8,16',
+    // moonlight silver — pale gold meets night sky
+    accent: '#A8B8CC', rgb: '168,184,204',
+    text: '#ECF1F8', textMuted: '#B5C2D0', gray: '#5E6878',
+    // full moon glowing in dark night sky
+    image: 'https://images.unsplash.com/photo-7_q1mh7Ibvk?w=1920&q=80&fit=crop',
   },
 ]
 
