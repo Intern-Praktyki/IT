@@ -10,7 +10,8 @@ const THEMES = [
     bg: '#0A0A0A', bgRgb: '10,10,10',
     accent: '#D4AF37', rgb: '212,175,55',
     text: '#F5F3EE', textMuted: '#C8C6C1', gray: '#787672',
-    image: null,
+    // smoke on black background — abstract dark luxury
+    image: 'https://images.unsplash.com/photo-bVlz5gv18Qk?w=1920&q=80&fit=crop',
   },
   {
     id: 'witch',
@@ -186,13 +187,31 @@ function ContactForm() {
 
 // ── Theme Switcher ────────────────────────────────────────────────────────────
 
-function ThemeSwitcher({ current, onChange }) {
+function ThemeSwitcher({ current, onChange, img, onToggleImg }) {
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-5 py-3 rounded-full backdrop-blur-md"
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-1 px-4 py-3 rounded-full backdrop-blur-md"
       style={{ background: 'rgba(8,8,8,0.92)', border: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
+
+      {/* Image toggle */}
+      <button onClick={onToggleImg} title={img ? 'Hide photo' : 'Show photo'}
+        className="flex flex-col items-center gap-1 px-2 mr-1">
+        <motion.div animate={{ opacity: img ? 1 : 0.25 }} transition={{ duration: 0.25 }}
+          className="w-4 h-4 rounded flex items-center justify-center text-[9px]"
+          style={{ border: '1px solid rgba(255,255,255,0.2)', color: img ? '#fff' : 'rgba(255,255,255,0.4)' }}>
+          ◈
+        </motion.div>
+        <span className="text-[7px] tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.22)' }}>
+          photo
+        </span>
+      </button>
+
+      {/* Divider */}
+      <div className="h-5 w-px mx-1" style={{ background: 'rgba(255,255,255,0.08)' }} />
+
+      {/* Theme dots */}
       {THEMES.map(th => (
         <button key={th.id} onClick={() => onChange(th.id)} title={th.label}
-          className="relative flex flex-col items-center gap-1">
+          className="relative flex flex-col items-center gap-1 px-1.5">
           <motion.div
             animate={{
               scale: current === th.id ? 1.3 : 1,
@@ -217,7 +236,8 @@ function ThemeSwitcher({ current, onChange }) {
 
 export default function Concept1() {
   const [themeId, setThemeId] = useState('obsidian')
-  const [ready, setReady]   = useState(false)
+  const [ready, setReady]     = useState(false)
+  const [showImg, setShowImg] = useState(true)
   const t = THEMES.find(th => th.id === themeId)
 
   useEffect(() => { const id = setTimeout(() => setReady(true), 80); return () => clearTimeout(id) }, [])
@@ -254,14 +274,18 @@ export default function Concept1() {
 
           {/* HERO */}
           <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 overflow-hidden">
-            {t.image && (
-              <>
-                <div className="absolute inset-0"
-                  style={{ backgroundImage: `url(${t.image})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.28) saturate(1.3)' }} />
-                <div className="absolute inset-0"
-                  style={{ background: `linear-gradient(to bottom, rgba(${t.bgRgb},0.25) 0%, rgba(${t.bgRgb},0.75) 60%, rgba(${t.bgRgb},1) 88%)` }} />
-              </>
-            )}
+            <AnimatePresence>
+              {t.image && showImg && (
+                <motion.div key={`${themeId}-img`} className="absolute inset-0"
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6 }}>
+                  <div className="absolute inset-0"
+                    style={{ backgroundImage: `url(${t.image})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.28) saturate(1.3)' }} />
+                  <div className="absolute inset-0"
+                    style={{ background: `linear-gradient(to bottom, rgba(${t.bgRgb},0.25) 0%, rgba(${t.bgRgb},0.75) 60%, rgba(${t.bgRgb},1) 88%)` }} />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Hero content */}
             <div className="relative z-10 flex flex-col items-center">
@@ -407,7 +431,7 @@ export default function Concept1() {
         </motion.div>
       </AnimatePresence>
 
-      <ThemeSwitcher current={themeId} onChange={setThemeId} />
+      <ThemeSwitcher current={themeId} onChange={setThemeId} img={showImg} onToggleImg={() => setShowImg(v => !v)} />
     </Ctx.Provider>
   )
 }
