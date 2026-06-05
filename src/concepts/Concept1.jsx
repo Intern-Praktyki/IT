@@ -314,9 +314,9 @@ export default function Concept1() {
                 Tarot · Astrology · Private Consultations
               </motion.p>
 
-              <h1 className="font-serif font-light leading-none overflow-hidden"
+              <h1 className="font-serif font-light leading-none overflow-hidden relative"
                 style={{ fontSize: 'clamp(3.5rem,9vw,8.5rem)', letterSpacing: '-0.015em', color: t.text }}>
-                {'Ola Apokalipsa'.split(' ').map((word, i) => (
+                {['Ola', 'Apokalipsa'].map((word, i) => (
                   <motion.span key={word} className="inline-block"
                     style={{ marginRight: i === 0 ? '0.28em' : 0 }}
                     initial={{ opacity: 0, y: '65%' }}
@@ -325,6 +325,19 @@ export default function Concept1() {
                     {word}
                   </motion.span>
                 ))}
+                <motion.sup
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: ready ? 1 : 0 }}
+                  transition={{ duration: 0.8, delay: 0.9, ease }}
+                  className="font-sans font-light align-super"
+                  style={{
+                    fontSize: 'clamp(0.7rem,1.4vw,1.4rem)',
+                    letterSpacing: '0.05em',
+                    color: t.accent,
+                    marginLeft: '0.15em',
+                  }}>
+                  ™
+                </motion.sup>
               </h1>
 
               <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: ready ? 1 : 0 }}
@@ -441,7 +454,7 @@ export default function Concept1() {
 
             <p className="text-center text-[10px] tracking-[0.25em] uppercase mt-16"
               style={{ color: `rgba(${t.rgb},0.2)` }}>
-              © 2025 Ola Apokalipsa · All rights reserved
+              © 2025 Ola Apokalipsa™ · All rights reserved
             </p>
           </section>
 
