@@ -6,23 +6,23 @@ import { useEffect, useState, useRef } from 'react'
 const SERVICES = [
   {
     num: '01',
-    name: 'Karty Mówią',
-    sub: 'Seans Tarotowy',
-    desc: 'Godzinna sesja jeden-na-jeden. Karty odkrywają to, co już wiesz, ale boisz się powiedzieć głośno.',
+    name: 'Seans z kartami',
+    sub: 'Tarot · 60 min',
+    desc: 'Godzina, ty i karty. Bez lania wody — rozmawiamy o tym, co naprawdę chcesz wiedzieć.',
     price: 'od 280 zł',
   },
   {
     num: '02',
-    name: 'Niebo Pamięta',
-    sub: 'Mapa Urodzeniowa',
-    desc: 'Twój horoskop urodzeniowy jako precyzyjny portret — architektura charakteru, talentów i ślepych punktów.',
+    name: 'Skąd jesteś',
+    sub: 'Horoskop urodzeniowy',
+    desc: 'Twoja mapa nieba od chwili narodzin. Charakter, blokady, potencjał — konkretnie, nie ogólnikowo.',
     price: 'od 380 zł',
   },
   {
     num: '03',
-    name: 'Apokalipsa Na Żywo',
-    sub: 'Wydarzenie Prywatne',
-    desc: 'Dyskretne seanse dla małych grup, wieczorów panieńskich i wydarzeń korporacyjnych. Każde — na miarę.',
+    name: 'Przyjeżdżam do was',
+    sub: 'Eventy i grupy',
+    desc: 'Wieczór panieński, urodziny, firmowa integracja. Dyskretnie, bez kiczu, z humorem.',
     price: 'Wycena indywidualna',
   },
 ]
