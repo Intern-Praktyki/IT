@@ -64,9 +64,9 @@ const useT = () => useContext(Ctx)
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const SERVICES = [
-  { num: '01', name: "Cards Don't Lie",         sub: 'Tarot · 60 min',           price: 'from €280' },
-  { num: '02', name: 'Born Under A Sign',        sub: 'Natal Chart · Full Reading', price: 'from €380' },
-  { num: '03', name: 'The Apocalypse Experience',sub: 'Private Events & Groups',   price: 'On enquiry' },
+  { num: '01', glyph: '☽', name: "Cards Don't Lie",         sub: 'Tarot · 60 min',           price: 'from €280' },
+  { num: '02', glyph: '⊕', name: 'Born Under A Sign',        sub: 'Natal Chart · Full Reading', price: 'from €380' },
+  { num: '03', glyph: '✦', name: 'The Apocalypse Experience',sub: 'Private Events & Groups',   price: 'On enquiry' },
 ]
 
 const NAV = [
@@ -87,8 +87,11 @@ const ease = [0.22, 1, 0.36, 1]
 function Divider() {
   const t = useT()
   return (
-    <div className="h-px w-16 mx-auto"
-      style={{ background: `linear-gradient(90deg,transparent,rgba(${t.rgb},.5),transparent)` }} />
+    <div className="flex items-center justify-center gap-3 mx-auto w-48">
+      <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg,transparent,rgba(${t.rgb},.4))` }} />
+      <span className="text-[11px]" style={{ color: `rgba(${t.rgb},0.6)` }}>✦</span>
+      <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg,rgba(${t.rgb},.4),transparent)` }} />
+    </div>
   )
 }
 
@@ -126,7 +129,7 @@ function CitiesTicker() {
               style={{ color: `rgba(${t.rgb},0.5)` }}>
               {city}
             </span>
-            <span style={{ color: `rgba(${t.rgb},0.2)`, fontSize: 7 }}>◆</span>
+            <span style={{ color: `rgba(${t.rgb},0.25)`, fontSize: 9 }}>✦</span>
           </span>
         ))}
       </div>
@@ -311,7 +314,7 @@ export default function Concept1() {
                 transition={{ duration: 0.8, delay: 0.2, ease }}
                 className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
                 style={{ color: t.accent }}>
-                Tarot · Astrology · Private Consultations
+                ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
               </motion.p>
 
               <h1 className="font-serif font-light leading-none overflow-hidden relative"
@@ -404,8 +407,9 @@ export default function Concept1() {
                   whileHover={{ boxShadow: `0 0 55px rgba(${t.rgb},0.12), inset 0 0 30px rgba(${t.rgb},0.04)` }}
                   className="p-10 md:p-12 text-center"
                   style={{ borderRight: i < 2 ? `1px solid rgba(${t.rgb},0.14)` : 'none', backgroundColor: 'transparent' }}>
-                  <p className="font-serif font-light text-5xl mb-4"
-                    style={{ color: `rgba(${t.rgb},0.16)` }}>{s.num}</p>
+                  <p className="text-2xl mb-1" style={{ color: `rgba(${t.rgb},0.55)` }}>{s.glyph}</p>
+                  <p className="font-serif font-light text-4xl mb-4"
+                    style={{ color: `rgba(${t.rgb},0.14)` }}>{s.num}</p>
                   <p className="text-[10px] tracking-[0.35em] uppercase mb-2" style={{ color: t.accent }}>{s.sub}</p>
                   <h3 className="font-serif text-2xl font-light mb-4" style={{ color: t.text }}>{s.name}</h3>
                   <div className="h-px w-8 mx-auto mb-4" style={{ background: `rgba(${t.rgb},0.4)` }} />
