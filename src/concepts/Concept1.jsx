@@ -6,23 +6,27 @@ import { useEffect, useState, useRef } from 'react'
 const SERVICES = [
   {
     num: '01',
-    name: 'Seans z kartami',
-    sub: 'Tarot · 60 min',
-    desc: 'Godzina, ty i karty. Bez lania wody — rozmawiamy o tym, co naprawdę chcesz wiedzieć.',
-    price: 'od 280 zł',
+    // Twoja nazwa tej usługi, np. "Seans z kartami" albo cokolwiek czujesz
+    name: 'Nazwa usługi 1',
+    // Krótki podtytuł/format, np. "Tarot · 60 min" albo "online / stacjonarnie"
+    sub: 'Podtytuł · czas trwania',
+    // 2-3 zdania własnymi słowami: co dokładnie dostaję, jak to wygląda, dla kogo jest
+    desc: '← Opisz tę usługę po swojemu. Co się dzieje podczas sesji? Czego może się spodziewać klient? Dla kogo to jest?',
+    // Twoja cena, np. "od 280 zł" / "250 zł / h" / "od 200 zł"
+    price: 'od ?? zł',
   },
   {
     num: '02',
-    name: 'Skąd jesteś',
-    sub: 'Horoskop urodzeniowy',
-    desc: 'Twoja mapa nieba od chwili narodzin. Charakter, blokady, potencjał — konkretnie, nie ogólnikowo.',
-    price: 'od 380 zł',
+    name: 'Nazwa usługi 2',
+    sub: 'Podtytuł · czas trwania',
+    desc: '← Tu opisz drugą usługę. Co zawiera? Czy dostaję nagranie, PDF, opis? Jak długo czeka się na efekt?',
+    price: 'od ?? zł',
   },
   {
     num: '03',
-    name: 'Przyjeżdżam do was',
-    sub: 'Eventy i grupy',
-    desc: 'Wieczór panieński, urodziny, firmowa integracja. Dyskretnie, bez kiczu, z humorem.',
+    name: 'Nazwa usługi 3',
+    sub: 'Podtytuł · format',
+    desc: '← Jeśli robisz eventy/grupy — napisz dla ilu osób, jak wygląda taki wieczór, gdzie możesz dojechać.',
     price: 'Wycena indywidualna',
   },
 ]
@@ -208,7 +212,8 @@ export default function Concept1() {
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="text-[10px] tracking-[0.45em] uppercase text-gold mb-10 font-light"
         >
-          Konsultacje Prywatne · Na Zaproszenie
+          {/* ← Twój "tagline" nad imieniem, np. "Tarot · Astrologia · Warszawa" */}
+          Tarot · Astrologia · [Twoje miasto]
         </motion.p>
 
         <h1
@@ -269,7 +274,8 @@ export default function Concept1() {
             className="font-serif text-ivory font-light leading-tight mb-8"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
           >
-            Intuicja wyćwiczona<br /><em>przez dwie dekady.</em>
+            {/* ← Twój krótki nagłówek "O mnie", np. "Robię to od X lat." albo coś swojego */}
+            Twój nagłówek<br /><em>sekcji O&nbsp;mnie.</em>
           </h2>
         </Reveal>
         <Reveal delay={0.15}>
@@ -277,7 +283,14 @@ export default function Concept1() {
         </Reveal>
         <Reveal delay={0.2} className="mt-8">
           <p className="text-muted-white font-light text-base leading-relaxed">
-            Ola pracuje z wyselekcjonowaną klientelą — menedżerami, artystami i osobami prywatnymi, które szukają odpowiedzi bez zbędnego teatru. Jej praktyka łączy rygor klasycznej astrologii z symbolicznym językiem tarota, oferując doradztwo precyzyjne, uziemione i w pełni poufne.
+            {/*
+              ← Napisz tu parę zdań o sobie własnymi słowami. Bez ściemy.
+              Np.: od kiedy to robisz, skąd się wzięło, jak pracujesz,
+              co Cię odróżnia od innych. Możesz też napisać dla kogo NIE jesteś —
+              to działa świetnie i odsiewa złych klientów.
+              Optymalnie: 3-5 zdań, żaden elaborat.
+            */}
+            [Twój bio — parę zdań o sobie, skąd to, jak pracujesz, dla kogo jesteś.]
           </p>
         </Reveal>
       </section>
