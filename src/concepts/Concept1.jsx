@@ -7,51 +7,46 @@ const THEMES = [
   {
     id: 'obsidian',
     label: 'Obsidian',
-    bg: '#0A0A0A',
-    card: '#101010',
-    accent: '#D4AF37',
-    rgb: '212,175,55',
-    text: '#F5F3EE',
-    textMuted: '#C8C6C1',
-    gray: '#787672',
+    bg: '#0A0A0A', bgRgb: '10,10,10',
+    accent: '#D4AF37', rgb: '212,175,55',
+    text: '#F5F3EE', textMuted: '#C8C6C1', gray: '#787672',
     image: null,
   },
   {
     id: 'witch',
-    label: 'Rich Witch',
-    bg: '#0C0814',
-    card: '#130C1E',
-    accent: '#A78BFA',
-    rgb: '167,139,250',
-    text: '#F0EBF8',
-    textMuted: '#C4B8D4',
-    gray: '#7A6080',
-    // Replace with any dark, moody image you like
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1920&q=80&fit=crop',
+    label: 'Witch',
+    bg: '#0C0814', bgRgb: '12,8,20',
+    accent: '#A78BFA', rgb: '167,139,250',
+    text: '#F0EBF8', textMuted: '#C4B8D4', gray: '#7A6080',
+    // dark crystals / amethyst vibe
+    image: 'https://images.unsplash.com/photo-1518611507436-f9221403cca2?w=1920&q=80&fit=crop',
   },
   {
     id: 'forest',
-    label: 'Dark Forest',
-    bg: '#070D09',
-    card: '#0C1410',
-    accent: '#6EAB7C',
-    rgb: '110,171,124',
-    text: '#EEF5EE',
-    textMuted: '#B5CCB5',
-    gray: '#637563',
-    image: null,
+    label: 'Forest',
+    bg: '#060D07', bgRgb: '6,13,7',
+    accent: '#6EAB7C', rgb: '110,171,124',
+    text: '#EDF5ED', textMuted: '#B2CBB2', gray: '#5E735E',
+    // dark misty forest
+    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80&fit=crop',
   },
   {
-    id: 'blood',
-    label: 'Blood Moon',
-    bg: '#0D0507',
-    card: '#160A0E',
-    accent: '#C2456A',
-    rgb: '194,69,106',
-    text: '#F5EEF0',
-    textMuted: '#C9B5BB',
-    gray: '#7A5F67',
-    image: null,
+    id: 'dusk',
+    label: 'Dusk',
+    bg: '#0D0905', bgRgb: '13,9,5',
+    accent: '#D4956A', rgb: '212,149,106',
+    text: '#F5EFEA', textMuted: '#C8B5A8', gray: '#7A6558',
+    // dramatic warm landscape / desert dunes
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&fit=crop',
+  },
+  {
+    id: 'glacier',
+    label: 'Glacier',
+    bg: '#05080F', bgRgb: '5,8,15',
+    accent: '#93C5FD', rgb: '147,197,253',
+    text: '#ECF2FA', textMuted: '#B5C5D8', gray: '#5A6878',
+    // cold winter landscape / ice
+    image: 'https://images.unsplash.com/photo-1477346611705-65d1883cee1e?w=1920&q=80&fit=crop',
   },
 ]
 
@@ -193,20 +188,20 @@ function ThemeSwitcher({ current, onChange }) {
       style={{ background: 'rgba(8,8,8,0.92)', border: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
       {THEMES.map(th => (
         <button key={th.id} onClick={() => onChange(th.id)} title={th.label}
-          className="relative flex flex-col items-center gap-1 group">
+          className="relative flex flex-col items-center gap-1">
           <motion.div
             animate={{
-              scale: current === th.id ? 1.25 : 1,
-              opacity: current === th.id ? 1 : 0.35,
-              boxShadow: current === th.id ? `0 0 14px ${th.accent}88` : '0 0 0px transparent',
+              scale: current === th.id ? 1.3 : 1,
+              opacity: current === th.id ? 1 : 0.3,
+              boxShadow: current === th.id ? `0 0 12px ${th.accent}99` : '0 0 0px transparent',
             }}
             transition={{ duration: 0.3 }}
-            className="w-5 h-5 rounded-full"
+            className="w-4 h-4 rounded-full"
             style={{ background: th.accent }}
           />
-          <span className="text-[8px] tracking-widest uppercase transition-opacity duration-200"
-            style={{ color: current === th.id ? th.accent : 'rgba(255,255,255,0.2)', opacity: current === th.id ? 1 : 0.6 }}>
-            {th.id === 'witch' ? '✦' : th.label.split(' ')[0]}
+          <span className="text-[7px] tracking-widest uppercase"
+            style={{ color: current === th.id ? th.accent : 'rgba(255,255,255,0.18)' }}>
+            {th.label}
           </span>
         </button>
       ))}
@@ -234,7 +229,7 @@ export default function Concept1() {
 
           {/* NAV */}
           <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-8 md:px-16 py-5"
-            style={{ borderBottom: `1px solid rgba(${t.rgb},0.07)`, backdropFilter: 'blur(12px)', background: `rgba(${t.bg.replace('#','').match(/.{2}/g).map(h=>parseInt(h,16)).join(',')},0.85)` }}>
+            style={{ borderBottom: `1px solid rgba(${t.rgb},0.07)`, backdropFilter: 'blur(12px)', background: `rgba(${t.bgRgb},0.88)` }}>
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }} transition={{ duration: 1 }}
               className="font-serif text-base tracking-[0.3em]" style={{ color: t.text }}>
               O · A
@@ -255,13 +250,12 @@ export default function Concept1() {
 
           {/* HERO */}
           <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 overflow-hidden">
-            {/* Rich Witch background image */}
             {t.image && (
               <>
-                <div className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${t.image})`, filter: 'brightness(0.35) saturate(1.4)' }} />
                 <div className="absolute inset-0"
-                  style={{ background: `linear-gradient(to bottom, rgba(12,8,20,0.3) 0%, ${t.bg} 100%)` }} />
+                  style={{ backgroundImage: `url(${t.image})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.28) saturate(1.3)' }} />
+                <div className="absolute inset-0"
+                  style={{ background: `linear-gradient(to bottom, rgba(${t.bgRgb},0.25) 0%, rgba(${t.bgRgb},0.75) 60%, rgba(${t.bgRgb},1) 88%)` }} />
               </>
             )}
 
