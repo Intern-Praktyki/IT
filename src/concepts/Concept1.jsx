@@ -6,30 +6,35 @@ import { useEffect, useState, useRef } from 'react'
 const SERVICES = [
   {
     num: '01',
-    // Twoja nazwa tej usługi, np. "Seans z kartami" albo cokolwiek czujesz
-    name: 'Nazwa usługi 1',
-    // Krótki podtytuł/format, np. "Tarot · 60 min" albo "online / stacjonarnie"
-    sub: 'Podtytuł · czas trwania',
-    price: 'od ?? zł',
+    name: 'Cards Don\'t Lie',
+    sub: 'Tarot · 60 min',
+    price: 'from €280',
   },
   {
     num: '02',
-    name: 'Nazwa usługi 2',
-    sub: 'Podtytuł · czas trwania',
-    price: 'od ?? zł',
+    name: 'Born Under A Sign',
+    sub: 'Natal Chart · Full Reading',
+    price: 'from €380',
   },
   {
     num: '03',
-    name: 'Nazwa usługi 3',
-    sub: 'Podtytuł · format',
-    price: 'Wycena indywidualna',
+    name: 'The Apocalypse Experience',
+    sub: 'Private Events & Groups',
+    price: 'On enquiry',
   },
 ]
 
 const NAV_LINKS = [
-  { label: 'O mnie', href: '#o-mnie' },
-  { label: 'Oferty', href: '#oferty' },
-  { label: 'Kontakt', href: '#kontakt' },
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Contact', href: '#contact' },
+]
+
+const CITIES = [
+  'Warsaw', 'Paris', 'New York', 'London', 'Berlin',
+  'Milan', 'Dubai', 'Amsterdam', 'Barcelona', 'Vienna',
+  'Warsaw', 'Paris', 'New York', 'London', 'Berlin',
+  'Milan', 'Dubai', 'Amsterdam', 'Barcelona', 'Vienna',
 ]
 
 const ease = [0.22, 1, 0.36, 1]
@@ -59,97 +64,97 @@ function Reveal({ children, delay = 0, y = 24, className = '' }) {
   )
 }
 
+// ─── Cities Ticker ────────────────────────────────────────────────────────────
+
+function CitiesTicker() {
+  return (
+    <div
+      className="w-full overflow-hidden py-5"
+      style={{ borderTop: '1px solid rgba(212,175,55,0.08)', borderBottom: '1px solid rgba(212,175,55,0.08)' }}
+    >
+      <style>{`
+        @keyframes ticker {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: ticker 28s linear infinite;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+      `}</style>
+      <div className="ticker-track">
+        {CITIES.map((city, i) => (
+          <span key={i} className="flex items-center">
+            <span
+              className="text-[10px] tracking-[0.4em] uppercase whitespace-nowrap px-6"
+              style={{ color: 'rgba(212,175,55,0.45)' }}
+            >
+              {city}
+            </span>
+            <span style={{ color: 'rgba(212,175,55,0.2)', fontSize: 6 }}>◆</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─── Contact Form ─────────────────────────────────────────────────────────────
-// Podpięcie backendu: zmień action= na URL Formspree / własne API.
-// Pole "bot_field" to honeypot — zostawiaj ukryte, łapie spam.
 
 function ContactForm() {
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [status, setStatus] = useState('idle')
   const formRef = useRef(null)
 
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus('sending')
     const data = new FormData(e.target)
-
     try {
       const res = await fetch(e.target.action, {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
       })
-      if (res.ok) {
-        setStatus('sent')
-        formRef.current?.reset()
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
-    }
+      if (res.ok) { setStatus('sent'); formRef.current?.reset() }
+      else setStatus('error')
+    } catch { setStatus('error') }
   }
 
-  const inputBase =
-    'w-full bg-transparent border-b py-3 text-ivory text-sm font-light placeholder:text-muted-gray ' +
-    'focus:outline-none focus:border-gold transition-colors duration-300'
+  const field =
+    'w-full bg-transparent border-b py-3 text-ivory text-sm font-light ' +
+    'placeholder:text-muted-gray focus:outline-none focus:border-gold ' +
+    'transition-colors duration-300'
 
   return (
-    // ↓ Zmień action= na swój endpoint (np. https://formspree.io/f/TWOJ_ID)
     <form
       ref={formRef}
       action="https://formspree.io/f/TWOJ_ID"
       onSubmit={handleSubmit}
       className="space-y-8 max-w-lg mx-auto"
     >
-      {/* Honeypot — ukryte, nie dotykaj */}
+      {/* honeypot */}
       <input type="text" name="bot_field" className="hidden" tabIndex={-1} autoComplete="off" />
 
-      <div>
-        <input
-          type="text"
-          name="name"
-          required
-          placeholder="Imię i nazwisko"
-          className={inputBase}
-          style={{ borderColor: 'rgba(212,175,55,0.22)' }}
-        />
-      </div>
-      <div>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="Adres e-mail"
-          className={inputBase}
-          style={{ borderColor: 'rgba(212,175,55,0.22)' }}
-        />
-      </div>
-      <div>
-        <textarea
-          name="message"
-          required
-          rows={4}
-          placeholder="W czym mogę Ci pomóc?"
-          className={inputBase + ' resize-none'}
-          style={{ borderColor: 'rgba(212,175,55,0.22)' }}
-        />
-      </div>
+      <input type="text"  name="name"    required placeholder="Your name"         className={field} style={{ borderColor: 'rgba(212,175,55,0.22)' }} />
+      <input type="email" name="email"   required placeholder="Your email"        className={field} style={{ borderColor: 'rgba(212,175,55,0.22)' }} />
+      <textarea           name="message" required placeholder="What's on your mind?" rows={4}
+        className={field + ' resize-none'} style={{ borderColor: 'rgba(212,175,55,0.22)' }} />
 
       <div className="text-center pt-2">
-        {status === 'sent' ? (
-          <p className="text-gold tracking-[0.25em] text-xs uppercase">Wiadomość wysłana — odpiszę wkrótce.</p>
-        ) : status === 'error' ? (
-          <p className="text-red-400 tracking-[0.2em] text-xs uppercase">Coś poszło nie tak. Napisz bezpośrednio na e-mail.</p>
-        ) : (
+        {status === 'sent'  && <p className="text-gold tracking-[0.25em] text-xs uppercase">Got it. I'll be in touch.</p>}
+        {status === 'error' && <p className="text-red-400 tracking-[0.2em] text-xs uppercase">Something went wrong. Email me directly.</p>}
+        {(status === 'idle' || status === 'sending') && (
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase text-gold disabled:opacity-50"
+            className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase text-gold disabled:opacity-40"
             style={{ border: '1px solid rgba(212,175,55,0.35)' }}
           >
             <span className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
             <span className="relative group-hover:text-obsidian transition-colors duration-500">
-              {status === 'sending' ? 'Wysyłanie…' : 'Wyślij wiadomość'}
+              {status === 'sending' ? 'Sending…' : 'Send Message'}
             </span>
           </button>
         )}
@@ -180,7 +185,6 @@ export default function Concept1() {
         >
           O · A
         </motion.span>
-
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: ready ? 1 : 0 }}
@@ -188,11 +192,8 @@ export default function Concept1() {
           className="flex gap-8 md:gap-12"
         >
           {NAV_LINKS.map(({ label, href }) => (
-            <a
-              key={href}
-              href={href}
-              className="text-[10px] tracking-[0.3em] uppercase text-muted-gray hover:text-gold transition-colors duration-300"
-            >
+            <a key={href} href={href}
+              className="text-[10px] tracking-[0.3em] uppercase text-muted-gray hover:text-gold transition-colors duration-300">
               {label}
             </a>
           ))}
@@ -207,7 +208,7 @@ export default function Concept1() {
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="text-[10px] tracking-[0.45em] uppercase text-gold mb-10 font-light"
         >
-          Tarot · Astrologia · Warszawa
+          Tarot · Astrology · Private Consultations
         </motion.p>
 
         <h1
@@ -242,11 +243,11 @@ export default function Concept1() {
           transition={{ duration: 0.9, delay: 1.0, ease }}
           className="font-serif italic text-muted-white text-xl md:text-2xl font-light mb-12 max-w-xs"
         >
-          Jasność. Precyzja. Pełna dyskrecja.
+          No vague prophecies.<br />Just the truth.
         </motion.p>
 
         <motion.a
-          href="#kontakt"
+          href="#contact"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
           transition={{ duration: 0.9, delay: 1.15, ease }}
@@ -254,47 +255,44 @@ export default function Concept1() {
           style={{ border: '1px solid rgba(212,175,55,0.35)' }}
         >
           <span className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
-          <span className="relative group-hover:text-obsidian transition-colors duration-500">Umów konsultację</span>
+          <span className="relative group-hover:text-obsidian transition-colors duration-500">Book a Session</span>
         </motion.a>
       </section>
 
+      {/* CITIES TICKER */}
+      <CitiesTicker />
+
       {/* ABOUT */}
-      <section id="o-mnie" className="py-36 px-6 max-w-xl mx-auto text-center">
+      <section id="about" className="py-36 px-6 max-w-xl mx-auto text-center">
         <Reveal>
-          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8">O mnie</p>
+          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8">About</p>
         </Reveal>
         <Reveal delay={0.1}>
           <h2
             className="font-serif text-ivory font-light leading-tight mb-8"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
           >
-            {/* ← Twój krótki nagłówek "O mnie", np. "Robię to od X lat." albo coś swojego */}
-            Twój nagłówek<br /><em>sekcji O&nbsp;mnie.</em>
+            Twenty years in.<br /><em>Still catching people off guard.</em>
           </h2>
         </Reveal>
-        <Reveal delay={0.15}>
-          <Divider />
-        </Reveal>
+        <Reveal delay={0.15}><Divider /></Reveal>
         <Reveal delay={0.2} className="mt-8">
           <p className="text-muted-white font-light text-base leading-relaxed">
-            {/*
-              ← Napisz tu parę zdań o sobie własnymi słowami. Bez ściemy.
-              Np.: od kiedy to robisz, skąd się wzięło, jak pracujesz,
-              co Cię odróżnia od innych. Możesz też napisać dla kogo NIE jesteś —
-              to działa świetnie i odsiewa złych klientów.
-              Optymalnie: 3-5 zdań, żaden elaborat.
-            */}
-            [Twój bio — parę zdań o sobie, skąd to, jak pracujesz, dla kogo jesteś.]
+            I read tarot and birth charts for people who are done with soft answers.
+            My clients are executives, creatives, and a handful of people you'd recognise
+            from a magazine — none of whom want to be mentioned here.
+            Sessions are private, direct, and sometimes a little too accurate.
+            Based in Warsaw. Regularly in Paris, London and New York.
+            Online for everyone else.
           </p>
         </Reveal>
       </section>
 
       {/* SERVICES */}
-      <section id="oferty" className="pb-36 px-6">
+      <section id="services" className="pb-36 px-6">
         <Reveal>
-          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-16 text-center">Oferty</p>
+          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-16 text-center">Services</p>
         </Reveal>
-
         <div
           className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3"
           style={{ border: '1px solid rgba(212,175,55,0.14)' }}
@@ -322,32 +320,29 @@ export default function Concept1() {
 
       {/* CONTACT */}
       <section
-        id="kontakt"
+        id="contact"
         className="py-36 px-6"
         style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}
       >
         <Reveal>
-          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8 text-center">Kontakt</p>
+          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8 text-center">Contact</p>
         </Reveal>
         <Reveal delay={0.1}>
           <h2
             className="font-serif text-ivory font-light text-center mb-10"
             style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
           >
-            Zacznij od wiadomości
+            Start with a message
           </h2>
         </Reveal>
-        <Reveal delay={0.15} className="mb-14">
-          <Divider />
-        </Reveal>
+        <Reveal delay={0.15} className="mb-14"><Divider /></Reveal>
 
         <Reveal delay={0.2}>
           <ContactForm />
         </Reveal>
 
-        {/* Fallback e-mail + socials */}
         <Reveal delay={0.3} className="mt-16 text-center">
-          <p className="text-[11px] tracking-[0.25em] uppercase text-muted-gray mb-4">lub napisz bezpośrednio</p>
+          <p className="text-[11px] tracking-[0.25em] uppercase text-muted-gray mb-4">or reach me directly</p>
           <a
             href="mailto:hello@olaapokalipsa.com"
             className="font-serif italic text-lg text-muted-white hover:text-gold transition-colors duration-300"
@@ -355,20 +350,20 @@ export default function Concept1() {
             hello@olaapokalipsa.com
           </a>
           <div className="flex items-center justify-center gap-10 mt-10">
-            {['Instagram', 'LinkedIn'].map((s) => (
-              <a
-                key={s}
-                href="#"
-                className="text-[10px] tracking-[0.35em] uppercase text-muted-gray hover:text-gold transition-colors duration-300"
-              >
-                {s}
+            {[
+              { label: 'Instagram', href: 'https://instagram.com/' },
+              { label: 'TikTok',    href: 'https://tiktok.com/' },
+            ].map(({ label, href }) => (
+              <a key={label} href={href}
+                className="text-[10px] tracking-[0.35em] uppercase text-muted-gray hover:text-gold transition-colors duration-300">
+                {label}
               </a>
             ))}
           </div>
         </Reveal>
 
         <p className="text-center text-[10px] tracking-[0.25em] uppercase mt-16" style={{ color: 'rgba(120,118,114,0.4)' }}>
-          © 2025 Ola Apokalipsa · Wszelkie prawa zastrzeżone
+          © 2025 Ola Apokalipsa · All rights reserved
         </p>
       </section>
 
