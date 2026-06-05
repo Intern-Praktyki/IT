@@ -1,38 +1,165 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const SERVICES = [
   {
     num: '01',
-    title: 'Tarot Reading',
-    sub: 'Personal Guidance',
-    desc: 'A deeply private one-hour session. Past, present, and the currents shaping what lies ahead.',
-    price: 'From €280',
+    name: 'Karty Mówią',
+    sub: 'Seans Tarotowy',
+    desc: 'Godzinna sesja jeden-na-jeden. Karty odkrywają to, co już wiesz, ale boisz się powiedzieć głośno.',
+    price: 'od 280 zł',
   },
   {
     num: '02',
-    title: 'Natal Chart',
-    sub: 'Astrological Portrait',
-    desc: 'Your birth chart rendered into precise, actionable insight. The celestial architecture of who you are.',
-    price: 'From €380',
+    name: 'Niebo Pamięta',
+    sub: 'Mapa Urodzeniowa',
+    desc: 'Twój horoskop urodzeniowy jako precyzyjny portret — architektura charakteru, talentów i ślepych punktów.',
+    price: 'od 380 zł',
   },
   {
     num: '03',
-    title: 'Private Events',
-    sub: 'Exclusive Experience',
-    desc: 'Discreet readings for intimate gatherings, private celebrations, and corporate events.',
-    price: 'By arrangement',
+    name: 'Apokalipsa Na Żywo',
+    sub: 'Wydarzenie Prywatne',
+    desc: 'Dyskretne seanse dla małych grup, wieczorów panieńskich i wydarzeń korporacyjnych. Każde — na miarę.',
+    price: 'Wycena indywidualna',
   },
+]
+
+const NAV_LINKS = [
+  { label: 'O mnie', href: '#o-mnie' },
+  { label: 'Oferty', href: '#oferty' },
+  { label: 'Kontakt', href: '#kontakt' },
 ]
 
 const ease = [0.22, 1, 0.36, 1]
 
-const Divider = ({ width = 'w-16', mx = '' }) => (
-  <div
-    className={`h-px ${width} ${mx}`}
-    style={{ background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.55), transparent)' }}
-  />
-)
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function Divider() {
+  return (
+    <div
+      className="h-px w-16 mx-auto"
+      style={{ background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.55),transparent)' }}
+    />
+  )
+}
+
+function Reveal({ children, delay = 0, y = 24, className = '' }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-70px' }}
+      transition={{ duration: 0.85, delay, ease }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// ─── Contact Form ─────────────────────────────────────────────────────────────
+// Podpięcie backendu: zmień action= na URL Formspree / własne API.
+// Pole "bot_field" to honeypot — zostawiaj ukryte, łapie spam.
+
+function ContactForm() {
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const formRef = useRef(null)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setStatus('sending')
+    const data = new FormData(e.target)
+
+    try {
+      const res = await fetch(e.target.action, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        setStatus('sent')
+        formRef.current?.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  const inputBase =
+    'w-full bg-transparent border-b py-3 text-ivory text-sm font-light placeholder:text-muted-gray ' +
+    'focus:outline-none focus:border-gold transition-colors duration-300'
+
+  return (
+    // ↓ Zmień action= na swój endpoint (np. https://formspree.io/f/TWOJ_ID)
+    <form
+      ref={formRef}
+      action="https://formspree.io/f/TWOJ_ID"
+      onSubmit={handleSubmit}
+      className="space-y-8 max-w-lg mx-auto"
+    >
+      {/* Honeypot — ukryte, nie dotykaj */}
+      <input type="text" name="bot_field" className="hidden" tabIndex={-1} autoComplete="off" />
+
+      <div>
+        <input
+          type="text"
+          name="name"
+          required
+          placeholder="Imię i nazwisko"
+          className={inputBase}
+          style={{ borderColor: 'rgba(212,175,55,0.22)' }}
+        />
+      </div>
+      <div>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Adres e-mail"
+          className={inputBase}
+          style={{ borderColor: 'rgba(212,175,55,0.22)' }}
+        />
+      </div>
+      <div>
+        <textarea
+          name="message"
+          required
+          rows={4}
+          placeholder="W czym mogę Ci pomóc?"
+          className={inputBase + ' resize-none'}
+          style={{ borderColor: 'rgba(212,175,55,0.22)' }}
+        />
+      </div>
+
+      <div className="text-center pt-2">
+        {status === 'sent' ? (
+          <p className="text-gold tracking-[0.25em] text-xs uppercase">Wiadomość wysłana — odpiszę wkrótce.</p>
+        ) : status === 'error' ? (
+          <p className="text-red-400 tracking-[0.2em] text-xs uppercase">Coś poszło nie tak. Napisz bezpośrednio na e-mail.</p>
+        ) : (
+          <button
+            type="submit"
+            disabled={status === 'sending'}
+            className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase text-gold disabled:opacity-50"
+            style={{ border: '1px solid rgba(212,175,55,0.35)' }}
+          >
+            <span className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+            <span className="relative group-hover:text-obsidian transition-colors duration-500">
+              {status === 'sending' ? 'Wysyłanie…' : 'Wyślij wiadomość'}
+            </span>
+          </button>
+        )}
+      </div>
+    </form>
+  )
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Concept1() {
   const [ready, setReady] = useState(false)
@@ -40,10 +167,11 @@ export default function Concept1() {
 
   return (
     <div className="bg-obsidian min-h-screen font-sans">
+
       {/* NAV */}
       <nav
         className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-8 md:px-16 py-5"
-        style={{ borderBottom: '1px solid rgba(212,175,55,0.07)' }}
+        style={{ borderBottom: '1px solid rgba(212,175,55,0.07)', backdropFilter: 'blur(12px)', background: 'rgba(10,10,10,0.85)' }}
       >
         <motion.span
           initial={{ opacity: 0 }}
@@ -53,25 +181,26 @@ export default function Concept1() {
         >
           O · A
         </motion.span>
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: ready ? 1 : 0 }}
           transition={{ duration: 1, delay: 0.3 }}
           className="flex gap-8 md:gap-12"
         >
-          {['About', 'Services', 'Contact'].map((item) => (
+          {NAV_LINKS.map(({ label, href }) => (
             <a
-              key={item}
-              href={`#c1-${item.toLowerCase()}`}
+              key={href}
+              href={href}
               className="text-[10px] tracking-[0.3em] uppercase text-muted-gray hover:text-gold transition-colors duration-300"
             >
-              {item}
+              {label}
             </a>
           ))}
         </motion.div>
       </nav>
 
-      {/* HERO — word-by-word slide-up on load (the "magic trick") */}
+      {/* HERO */}
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -79,7 +208,7 @@ export default function Concept1() {
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="text-[10px] tracking-[0.45em] uppercase text-gold mb-10 font-light"
         >
-          Private Consultations · By Appointment
+          Konsultacje Prywatne · Na Zaproszenie
         </motion.p>
 
         <h1
@@ -105,7 +234,7 @@ export default function Concept1() {
           animate={{ scaleX: ready ? 1 : 0 }}
           transition={{ duration: 1.1, delay: 0.8, ease }}
           className="my-8"
-          style={{ height: 1, width: 140, background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)', transformOrigin: 'left' }}
+          style={{ height: 1, width: 140, background: 'linear-gradient(90deg,transparent,#D4AF37,transparent)', transformOrigin: 'left' }}
         />
 
         <motion.p
@@ -114,11 +243,11 @@ export default function Concept1() {
           transition={{ duration: 0.9, delay: 1.0, ease }}
           className="font-serif italic text-muted-white text-xl md:text-2xl font-light mb-12 max-w-xs"
         >
-          Clarity. Precision. Absolute discretion.
+          Jasność. Precyzja. Pełna dyskrecja.
         </motion.p>
 
         <motion.a
-          href="mailto:hello@olaapokalipsa.com"
+          href="#kontakt"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
           transition={{ duration: 0.9, delay: 1.15, ease }}
@@ -126,71 +255,57 @@ export default function Concept1() {
           style={{ border: '1px solid rgba(212,175,55,0.35)' }}
         >
           <span className="absolute inset-0 bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
-          <span className="relative group-hover:text-obsidian transition-colors duration-500">Book a Consultation</span>
+          <span className="relative group-hover:text-obsidian transition-colors duration-500">Umów konsultację</span>
         </motion.a>
       </section>
 
       {/* ABOUT */}
-      <section id="c1-about" className="py-36 px-6 max-w-xl mx-auto text-center">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-80px' }}
-          className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8"
-        >
-          About
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, delay: 0.1, ease }}
-          className="font-serif text-ivory font-light leading-tight mb-8"
-          style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
-        >
-          Intuition refined<br /><em>over two decades.</em>
-        </motion.h2>
-        <Divider mx="mx-auto" />
-        <div className="mt-8" />
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, delay: 0.2, ease }}
-          className="text-muted-white font-light text-base leading-relaxed"
-        >
-          Ola works with a selective clientele — executives, artists, and private individuals who require insight without spectacle. Her practice merges the rigour of classical astrology with the symbolic language of the tarot, offering counsel that is precise, grounded, and entirely confidential.
-        </motion.p>
+      <section id="o-mnie" className="py-36 px-6 max-w-xl mx-auto text-center">
+        <Reveal>
+          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8">O mnie</p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2
+            className="font-serif text-ivory font-light leading-tight mb-8"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+          >
+            Intuicja wyćwiczona<br /><em>przez dwie dekady.</em>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <Divider />
+        </Reveal>
+        <Reveal delay={0.2} className="mt-8">
+          <p className="text-muted-white font-light text-base leading-relaxed">
+            Ola pracuje z wyselekcjonowaną klientelą — menedżerami, artystami i osobami prywatnymi, które szukają odpowiedzi bez zbędnego teatru. Jej praktyka łączy rygor klasycznej astrologii z symbolicznym językiem tarota, oferując doradztwo precyzyjne, uziemione i w pełni poufne.
+          </p>
+        </Reveal>
       </section>
 
       {/* SERVICES */}
-      <section id="c1-services" className="pb-36 px-6">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-80px' }}
-          className="text-[10px] tracking-[0.45em] uppercase text-gold mb-16 text-center"
-        >
-          Services
-        </motion.p>
+      <section id="oferty" className="pb-36 px-6">
+        <Reveal>
+          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-16 text-center">Oferty</p>
+        </Reveal>
+
         <div
           className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3"
           style={{ border: '1px solid rgba(212,175,55,0.14)' }}
         >
           {SERVICES.map((s, i) => (
             <motion.div
-              key={s.title}
+              key={s.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.7, delay: i * 0.12, ease }}
-              whileHover={{ boxShadow: '0 0 55px rgba(212,175,55,0.13), inset 0 0 30px rgba(212,175,55,0.03)' }}
+              whileHover={{ boxShadow: '0 0 55px rgba(212,175,55,0.12), inset 0 0 30px rgba(212,175,55,0.03)' }}
               className="group p-10 md:p-12 text-center"
               style={{ borderRight: i < 2 ? '1px solid rgba(212,175,55,0.14)' : 'none' }}
             >
-              <p className="font-serif font-light text-5xl mb-6" style={{ color: 'rgba(212,175,55,0.18)' }}>{s.num}</p>
-              <p className="text-[10px] tracking-[0.35em] uppercase text-gold mb-3">{s.sub}</p>
-              <h3 className="font-serif text-ivory text-2xl font-light mb-4">{s.title}</h3>
+              <p className="font-serif font-light text-5xl mb-4" style={{ color: 'rgba(212,175,55,0.16)' }}>{s.num}</p>
+              <p className="text-[10px] tracking-[0.35em] uppercase text-gold mb-2">{s.sub}</p>
+              <h3 className="font-serif text-ivory text-2xl font-light mb-4">{s.name}</h3>
               <div className="h-px w-8 mx-auto mb-4" style={{ background: 'rgba(212,175,55,0.4)' }} />
               <p className="text-muted-gray text-sm leading-relaxed mb-6 font-light">{s.desc}</p>
               <p className="text-gold text-xs tracking-[0.2em]">{s.price}</p>
@@ -200,46 +315,57 @@ export default function Concept1() {
       </section>
 
       {/* CONTACT */}
-      <section id="c1-contact" className="py-36 px-6 text-center" style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-80px' }}
-          className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8"
-        >
-          Contact
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, ease }}
-          className="font-serif text-ivory font-light mb-10"
-          style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
-        >
-          Begin your consultation
-        </motion.h2>
-        <Divider mx="mx-auto" />
-        <div className="mt-10" />
-        <motion.a
-          href="mailto:hello@olaapokalipsa.com"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="font-serif italic text-xl md:text-2xl text-muted-white hover:text-gold transition-colors duration-300"
-        >
-          hello@olaapokalipsa.com
-        </motion.a>
-        <div className="flex items-center justify-center gap-10 mt-12">
-          {['Instagram', 'LinkedIn'].map((s) => (
-            <a key={s} href="#" className="text-[10px] tracking-[0.35em] uppercase text-muted-gray hover:text-gold transition-colors duration-300">{s}</a>
-          ))}
-        </div>
-        <p className="text-[10px] tracking-[0.25em] uppercase mt-16" style={{ color: 'rgba(120,118,114,0.4)' }}>
-          © 2025 Ola Apokalipsa · All rights reserved
+      <section
+        id="kontakt"
+        className="py-36 px-6"
+        style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}
+      >
+        <Reveal>
+          <p className="text-[10px] tracking-[0.45em] uppercase text-gold mb-8 text-center">Kontakt</p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2
+            className="font-serif text-ivory font-light text-center mb-10"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+          >
+            Zacznij od wiadomości
+          </h2>
+        </Reveal>
+        <Reveal delay={0.15} className="mb-14">
+          <Divider />
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <ContactForm />
+        </Reveal>
+
+        {/* Fallback e-mail + socials */}
+        <Reveal delay={0.3} className="mt-16 text-center">
+          <p className="text-[11px] tracking-[0.25em] uppercase text-muted-gray mb-4">lub napisz bezpośrednio</p>
+          <a
+            href="mailto:hello@olaapokalipsa.com"
+            className="font-serif italic text-lg text-muted-white hover:text-gold transition-colors duration-300"
+          >
+            hello@olaapokalipsa.com
+          </a>
+          <div className="flex items-center justify-center gap-10 mt-10">
+            {['Instagram', 'LinkedIn'].map((s) => (
+              <a
+                key={s}
+                href="#"
+                className="text-[10px] tracking-[0.35em] uppercase text-muted-gray hover:text-gold transition-colors duration-300"
+              >
+                {s}
+              </a>
+            ))}
+          </div>
+        </Reveal>
+
+        <p className="text-center text-[10px] tracking-[0.25em] uppercase mt-16" style={{ color: 'rgba(120,118,114,0.4)' }}>
+          © 2025 Ola Apokalipsa · Wszelkie prawa zastrzeżone
         </p>
       </section>
+
     </div>
   )
 }
