@@ -398,7 +398,7 @@ function HeroMonolith({ ready, showImg }) {
 
         <h1 className="font-serif font-light leading-none overflow-hidden relative"
           style={{ fontSize: 'clamp(3.2rem,9vw,8.5rem)', letterSpacing: '-0.015em', color: t.text }}>
-          {['Muzeum', 'Wódki'].map((word, i) => (
+          {['Ola', 'Apokalipsa'].map((word, i) => (
             <motion.span key={word} className="inline-block"
               style={{ marginRight: i === 0 ? '0.28em' : 0 }}
               initial={{ opacity: 0, y: '65%' }}
@@ -472,7 +472,7 @@ function HeroSplit({ ready, showImg }) {
           className="absolute left-5 top-1/2 pointer-events-none"
           style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)',
             fontSize: '8px', letterSpacing: '0.5em', textTransform: 'uppercase', color: `rgba(${t.rgb},0.35)` }}>
-          Tarot · Astrology · Wódki
+          Tarot · Astrology · Apokalipsa
         </motion.div>
 
         {/* Corner esoteric glyph */}
@@ -501,7 +501,7 @@ function HeroSplit({ ready, showImg }) {
 
           <h1 className="font-serif font-light leading-none mb-6"
             style={{ letterSpacing: '-0.01em', color: t.text }}>
-            {['Muzeum', 'Wódki'].map((word, i) => (
+            {['Ola', 'Apokalipsa'].map((word, i) => (
               <div key={word} className="overflow-hidden">
                 <motion.div
                   initial={{ y: '105%' }} animate={{ y: ready ? '0%' : '105%' }}
@@ -655,7 +655,7 @@ export default function Concept1() {
             style={{ borderBottom: `1px solid rgba(${t.rgb},0.07)`, backdropFilter: 'blur(12px)', background: `rgba(${t.bgRgb},0.88)` }}>
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }} transition={{ duration: 1 }}
               className="font-serif text-base tracking-[0.3em]" style={{ color: t.text }}>
-              M · W
+              O · A
             </motion.span>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }} transition={{ duration: 1, delay: 0.3 }}
               className="flex gap-8 md:gap-12">
@@ -745,12 +745,12 @@ export default function Concept1() {
 
             <Reveal delay={0.3} className="mt-16 text-center">
               <p className="text-[11px] tracking-[0.25em] uppercase mb-4" style={{ color: t.gray }}>or reach me directly</p>
-              <a href="mailto:hello@muzeumwodki.com"
+              <a href="mailto:hello@olaapokalipsa.com"
                 className="font-serif italic text-lg transition-colors duration-300"
                 style={{ color: t.textMuted }}
                 onMouseEnter={e => e.currentTarget.style.color = t.accent}
                 onMouseLeave={e => e.currentTarget.style.color = t.textMuted}>
-                hello@muzeumwodki.com
+                hello@olaapokalipsa.com
               </a>
               <div className="flex items-center justify-center gap-10 mt-10">
                 {[{ label: 'Instagram', href: '#' }, { label: 'TikTok', href: '#' }].map(({ label, href }) => (
@@ -767,7 +767,7 @@ export default function Concept1() {
 
             <p className="text-center text-[10px] tracking-[0.25em] uppercase mt-16"
               style={{ color: `rgba(${t.rgb},0.2)` }}>
-              © 2025 Muzeum Wódki™ · All rights reserved
+              © 2025 Ola Apokalipsa™ · All rights reserved
             </p>
           </section>
 
