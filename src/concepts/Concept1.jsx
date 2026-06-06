@@ -66,6 +66,29 @@ const THEMES = [
 const Ctx = createContext(THEMES[0])
 const useT = () => useContext(Ctx)
 
+// ── Layouts ───────────────────────────────────────────────────────────────────
+
+const LAYOUTS = [
+  { id: 'monolith',  label: 'Monolith',  glyph: '◈',
+    heroCenter: true,  titleUpper: false, titleItalic: false, titleWeight: 'font-light',
+    taglineAbove: true,  services: 'grid',   aboutCols: 1, aboutAlign: 'center' },
+  { id: 'manifesto', label: 'Manifesto', glyph: '▲',
+    heroCenter: false, titleUpper: true,  titleItalic: false, titleWeight: 'font-thin',
+    taglineAbove: false, services: 'strips', aboutCols: 2, aboutAlign: 'left' },
+  { id: 'grimoire',  label: 'Grimoire',  glyph: '◇',
+    heroCenter: true,  titleUpper: false, titleItalic: true,  titleWeight: 'font-light',
+    taglineAbove: true,  services: 'cards',  aboutCols: 1, aboutAlign: 'center' },
+  { id: 'oracle',    label: 'Oracle',    glyph: '⊕',
+    heroCenter: true,  titleUpper: true,  titleItalic: false, titleWeight: 'font-bold',
+    taglineAbove: true,  services: 'list',   aboutCols: 1, aboutAlign: 'center' },
+  { id: 'seance',    label: 'Séance',    glyph: '☽',
+    heroCenter: false, titleUpper: false, titleItalic: true,  titleWeight: 'font-extralight',
+    taglineAbove: false, services: 'rows',   aboutCols: 1, aboutAlign: 'right' },
+]
+
+const LCtx = createContext(LAYOUTS[0])
+const useL = () => useContext(LCtx)
+
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const SERVICES = [
@@ -196,49 +219,225 @@ function ContactForm() {
   )
 }
 
+// ── Service layout variants ───────────────────────────────────────────────────
+
+function ServicesGrid() {
+  const t = useT()
+  return (
+    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3"
+      style={{ border: `1px solid rgba(${t.rgb},0.14)` }}>
+      {SERVICES.map((s, i) => (
+        <motion.div key={s.num}
+          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, delay: i * 0.12, ease }}
+          whileHover={{ boxShadow: `0 0 55px rgba(${t.rgb},0.12), inset 0 0 30px rgba(${t.rgb},0.04)` }}
+          className="p-10 md:p-12 text-center"
+          style={{ borderRight: i < 2 ? `1px solid rgba(${t.rgb},0.14)` : 'none' }}>
+          <p className="text-2xl mb-1" style={{ color: `rgba(${t.rgb},0.55)` }}>{s.glyph}</p>
+          <p className="font-serif font-light text-4xl mb-4" style={{ color: `rgba(${t.rgb},0.14)` }}>{s.num}</p>
+          <p className="text-[10px] tracking-[0.35em] uppercase mb-2" style={{ color: t.accent }}>{s.sub}</p>
+          <h3 className="font-serif text-2xl font-light mb-4" style={{ color: t.text }}>{s.name}</h3>
+          <div className="h-px w-8 mx-auto mb-4" style={{ background: `rgba(${t.rgb},0.4)` }} />
+          <p className="text-xs tracking-[0.2em]" style={{ color: t.accent }}>{s.price}</p>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function ServicesStrips() {
+  const t = useT()
+  return (
+    <div className="max-w-5xl mx-auto" style={{ borderTop: `1px solid rgba(${t.rgb},0.12)` }}>
+      {SERVICES.map((s, i) => (
+        <motion.div key={s.num}
+          initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.65, delay: i * 0.1, ease }}
+          className="flex items-center justify-between py-9 px-2 group cursor-default"
+          style={{ borderBottom: `1px solid rgba(${t.rgb},0.12)` }}
+          whileHover={{ paddingLeft: '1rem', transition: { duration: 0.25 } }}>
+          <div className="flex items-center gap-10">
+            <span className="font-serif text-4xl font-thin w-14" style={{ color: `rgba(${t.rgb},0.2)` }}>{s.num}</span>
+            <div>
+              <p className="text-[9px] tracking-[0.4em] uppercase mb-1" style={{ color: `rgba(${t.rgb},0.5)` }}>{s.sub}</p>
+              <h3 className="font-serif text-2xl md:text-3xl font-light" style={{ color: t.text, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.name}</h3>
+            </div>
+          </div>
+          <div className="flex items-center gap-6 shrink-0 ml-4">
+            <span className="text-xl" style={{ color: `rgba(${t.rgb},0.45)` }}>{s.glyph}</span>
+            <span className="text-xs tracking-[0.25em] uppercase hidden md:block" style={{ color: t.accent }}>{s.price}</span>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function ServicesCards() {
+  const t = useT()
+  return (
+    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      {SERVICES.map((s, i) => (
+        <motion.div key={s.num}
+          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, delay: i * 0.14, ease }}
+          whileHover={{ boxShadow: `0 0 50px rgba(${t.rgb},0.15)` }}
+          className="relative p-10 text-center"
+          style={{ border: `1px solid rgba(${t.rgb},0.28)`, boxShadow: `inset 0 0 50px rgba(${t.rgb},0.04)` }}>
+          {['top-2.5 left-2.5','top-2.5 right-2.5','bottom-2.5 left-2.5','bottom-2.5 right-2.5'].map(pos => (
+            <span key={pos} className={`absolute ${pos} text-[9px]`} style={{ color: `rgba(${t.rgb},0.45)` }}>✦</span>
+          ))}
+          <p className="text-3xl mb-3" style={{ color: `rgba(${t.rgb},0.65)` }}>{s.glyph}</p>
+          <p className="text-[10px] tracking-[0.35em] uppercase mb-3" style={{ color: t.accent }}>{s.sub}</p>
+          <h3 className="font-serif text-xl font-light mb-5" style={{ color: t.text }}>{s.name}</h3>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg,transparent,rgba(${t.rgb},0.3))` }} />
+            <span className="text-[9px]" style={{ color: `rgba(${t.rgb},0.5)` }}>✦</span>
+            <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg,rgba(${t.rgb},0.3),transparent)` }} />
+          </div>
+          <p className="text-xs tracking-[0.2em] uppercase" style={{ color: t.accent }}>{s.price}</p>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function ServicesList() {
+  const t = useT()
+  return (
+    <div className="max-w-2xl mx-auto" style={{ borderTop: `1px solid rgba(${t.rgb},0.12)` }}>
+      {SERVICES.map((s, i) => (
+        <motion.div key={s.num}
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.7, delay: i * 0.12, ease }}
+          className="flex gap-8 py-12"
+          style={{ borderBottom: `1px solid rgba(${t.rgb},0.12)` }}>
+          <span className="font-serif font-thin leading-none shrink-0" style={{ fontSize: '5rem', color: `rgba(${t.rgb},0.14)` }}>{s.num}</span>
+          <div className="flex-1 pt-2">
+            <p className="text-[10px] tracking-[0.4em] uppercase mb-2" style={{ color: t.accent }}>{s.glyph}  {s.sub}</p>
+            <h3 className="font-serif text-3xl font-light mb-4" style={{ color: t.text }}>{s.name}</h3>
+            <p className="text-xs tracking-[0.25em] uppercase" style={{ color: `rgba(${t.rgb},0.55)` }}>{s.price}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function ServicesRows() {
+  const t = useT()
+  return (
+    <div className="max-w-4xl mx-auto" style={{ borderTop: `1px solid rgba(${t.rgb},0.1)` }}>
+      {SERVICES.map((s, i) => (
+        <motion.div key={s.num}
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.7, delay: i * 0.12, ease }}
+          className="grid items-center py-10 gap-4"
+          style={{ gridTemplateColumns: '3rem 1fr auto', borderBottom: `1px solid rgba(${t.rgb},0.1)` }}>
+          <span className="text-3xl justify-self-center" style={{ color: `rgba(${t.rgb},0.5)` }}>{s.glyph}</span>
+          <div>
+            <p className="text-[9px] tracking-[0.4em] uppercase mb-1" style={{ color: `rgba(${t.rgb},0.45)` }}>{s.num} — {s.sub}</p>
+            <h3 className="font-serif text-2xl md:text-3xl font-light" style={{ color: t.text, fontStyle: 'italic' }}>{s.name}</h3>
+          </div>
+          <a href="#contact" className="group flex items-center gap-2 text-xs tracking-[0.2em] uppercase shrink-0"
+            style={{ color: t.accent }}>
+            {s.price}
+            <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+          </a>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function ServicesSection() {
+  const l = useL()
+  const t = useT()
+  return (
+    <section id="services" className="pb-36 px-6">
+      <Reveal>
+        <p className={`text-[10px] tracking-[0.45em] uppercase mb-16 ${l.aboutAlign === 'center' ? 'text-center' : l.aboutAlign === 'right' ? 'text-right' : 'text-left'}`}
+          style={{ color: t.accent }}>Services</p>
+      </Reveal>
+      {l.services === 'strips' && <ServicesStrips />}
+      {l.services === 'cards'  && <ServicesCards />}
+      {l.services === 'list'   && <ServicesList />}
+      {l.services === 'rows'   && <ServicesRows />}
+      {l.services === 'grid'   && <ServicesGrid />}
+    </section>
+  )
+}
+
 // ── Theme Switcher ────────────────────────────────────────────────────────────
 
-function ThemeSwitcher({ current, onChange, img, onToggleImg }) {
+function ThemeSwitcher({ currentTheme, onTheme, currentLayout, onLayout, img, onToggleImg }) {
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-1 px-4 py-3 rounded-full backdrop-blur-md"
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex flex-col items-center gap-2 px-5 py-4 rounded-2xl backdrop-blur-md"
       style={{ background: 'rgba(8,8,8,0.92)', border: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
 
-      {/* Image toggle */}
-      <button onClick={onToggleImg} title={img ? 'Hide photo' : 'Show photo'}
-        className="flex flex-col items-center gap-1 px-2 mr-1">
-        <motion.div animate={{ opacity: img ? 1 : 0.25 }} transition={{ duration: 0.25 }}
-          className="w-4 h-4 rounded flex items-center justify-center text-[9px]"
-          style={{ border: '1px solid rgba(255,255,255,0.2)', color: img ? '#fff' : 'rgba(255,255,255,0.4)' }}>
-          ◈
-        </motion.div>
-        <span className="text-[7px] tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.22)' }}>
-          photo
-        </span>
-      </button>
+      {/* Layout row */}
+      <div className="flex items-center gap-0.5">
+        {LAYOUTS.map(lay => (
+          <button key={lay.id} onClick={() => onLayout(lay.id)} title={lay.label}
+            className="flex flex-col items-center gap-1 px-2.5 py-1 rounded-lg transition-colors duration-200"
+            style={{ background: currentLayout === lay.id ? 'rgba(255,255,255,0.07)' : 'transparent' }}>
+            <motion.span
+              animate={{ opacity: currentLayout === lay.id ? 1 : 0.28 }}
+              transition={{ duration: 0.25 }}
+              className="text-[13px]"
+              style={{ color: currentLayout === lay.id ? '#fff' : 'rgba(255,255,255,0.5)' }}>
+              {lay.glyph}
+            </motion.span>
+            <span className="text-[7px] tracking-widest uppercase"
+              style={{ color: currentLayout === lay.id ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.18)' }}>
+              {lay.label}
+            </span>
+          </button>
+        ))}
+      </div>
 
-      {/* Divider */}
-      <div className="h-5 w-px mx-1" style={{ background: 'rgba(255,255,255,0.08)' }} />
+      {/* Separator */}
+      <div className="h-px w-full" style={{ background: 'rgba(255,255,255,0.07)' }} />
 
-      {/* Theme dots */}
-      {THEMES.map(th => (
-        <button key={th.id} onClick={() => onChange(th.id)} title={th.label}
-          className="relative flex flex-col items-center gap-1 px-1.5">
-          <motion.div
-            animate={{
-              scale: current === th.id ? 1.3 : 1,
-              opacity: current === th.id ? 1 : 0.3,
-              boxShadow: current === th.id ? `0 0 12px ${th.accent}99` : '0 0 0px transparent',
-            }}
-            transition={{ duration: 0.3 }}
-            className="w-4 h-4 rounded-full"
-            style={{ background: th.accent }}
-          />
-          <span className="text-[7px] tracking-widest uppercase"
-            style={{ color: current === th.id ? th.accent : 'rgba(255,255,255,0.18)' }}>
-            {th.label}
-          </span>
+      {/* Color row */}
+      <div className="flex items-center gap-1">
+        <button onClick={onToggleImg} title={img ? 'Hide photo' : 'Show photo'}
+          className="flex flex-col items-center gap-1 px-2 mr-1">
+          <motion.div animate={{ opacity: img ? 1 : 0.25 }} transition={{ duration: 0.25 }}
+            className="w-4 h-4 rounded flex items-center justify-center text-[9px]"
+            style={{ border: '1px solid rgba(255,255,255,0.2)', color: img ? '#fff' : 'rgba(255,255,255,0.4)' }}>
+            ◈
+          </motion.div>
+          <span className="text-[7px] tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.22)' }}>photo</span>
         </button>
-      ))}
+
+        <div className="h-5 w-px mx-1" style={{ background: 'rgba(255,255,255,0.08)' }} />
+
+        {THEMES.map(th => (
+          <button key={th.id} onClick={() => onTheme(th.id)} title={th.label}
+            className="flex flex-col items-center gap-1 px-1.5">
+            <motion.div
+              animate={{
+                scale: currentTheme === th.id ? 1.3 : 1,
+                opacity: currentTheme === th.id ? 1 : 0.3,
+                boxShadow: currentTheme === th.id ? `0 0 12px ${th.accent}99` : '0 0 0px transparent',
+              }}
+              transition={{ duration: 0.3 }}
+              className="w-4 h-4 rounded-full"
+              style={{ background: th.accent }}
+            />
+            <span className="text-[7px] tracking-widest uppercase"
+              style={{ color: currentTheme === th.id ? th.accent : 'rgba(255,255,255,0.18)' }}>
+              {th.label}
+            </span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -246,19 +445,22 @@ function ThemeSwitcher({ current, onChange, img, onToggleImg }) {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Concept1() {
-  const [themeId, setThemeId] = useState('obsidian')
-  const [ready, setReady]     = useState(false)
-  const [showImg, setShowImg] = useState(true)
+  const [themeId,  setThemeId]  = useState('obsidian')
+  const [layoutId, setLayoutId] = useState('monolith')
+  const [ready,    setReady]    = useState(false)
+  const [showImg,  setShowImg]  = useState(true)
   const t = THEMES.find(th => th.id === themeId)
+  const l = LAYOUTS.find(x  => x.id  === layoutId)
 
   useEffect(() => { const id = setTimeout(() => setReady(true), 80); return () => clearTimeout(id) }, [])
 
   return (
     <Ctx.Provider value={t}>
+    <LCtx.Provider value={l}>
       <AnimatePresence mode="wait">
-        <motion.div key={themeId}
+        <motion.div key={`${themeId}-${layoutId}`}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          transition={{ duration: 0.45 }}
+          transition={{ duration: 0.4 }}
           className="min-h-screen font-sans transition-colors duration-700"
           style={{ backgroundColor: t.bg, color: t.textMuted }}>
 
@@ -284,46 +486,45 @@ export default function Concept1() {
           </nav>
 
           {/* HERO */}
-          <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 overflow-hidden">
-            {/* Base glow — always visible, defines mood */}
-            <div className="absolute inset-0 pointer-events-none"
-              style={{ background: t.glow }} />
+          <section className={`relative min-h-screen flex flex-col justify-center px-6 ${l.heroCenter ? 'items-center text-center' : 'items-start text-left md:pl-20'} pt-20 overflow-hidden`}>
+            <div className="absolute inset-0 pointer-events-none" style={{ background: t.glow }} />
 
-            {/* Real photo background — Unsplash, unique per theme */}
             <AnimatePresence>
               {showImg && (
                 <motion.div key={`${themeId}-img`} className="absolute inset-0 pointer-events-none"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                  transition={{ duration: 0.7 }}>
-                  {/* photo */}
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
                   <div className="absolute inset-0" style={{
                     backgroundImage: `url(${t.photo}), url(${import.meta.env.BASE_URL}img/${t.id}.jpg)`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundSize: 'cover', backgroundPosition: 'center',
                     filter: 'brightness(0.42) saturate(1.1)',
                   }} />
-                  {/* color tint — pulls photo hue toward theme accent */}
                   <div className="absolute inset-0" style={{ background: t.tint }} />
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Fade to solid at bottom so content transitions cleanly */}
             <div className="absolute inset-0 pointer-events-none"
               style={{ background: `linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(${t.bgRgb},0.7) 75%, rgba(${t.bgRgb},1) 92%)` }} />
 
-            {/* Hero content */}
-            <div className="relative z-10 flex flex-col items-center">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
-                transition={{ duration: 0.8, delay: 0.2, ease }}
-                className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
-                style={{ color: t.accent }}>
-                ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
-              </motion.p>
+            <div className={`relative z-10 flex flex-col ${l.heroCenter ? 'items-center' : 'items-start'} max-w-5xl w-full ${l.heroCenter ? 'mx-auto' : ''}`}>
 
-              <h1 className="font-serif font-light leading-none overflow-hidden relative"
-                style={{ fontSize: 'clamp(3.5rem,9vw,8.5rem)', letterSpacing: '-0.015em', color: t.text }}>
+              {/* tagline above title */}
+              {l.taglineAbove && (
+                <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease }}
+                  className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
+                  style={{ color: t.accent }}>
+                  ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
+                </motion.p>
+              )}
+
+              <h1 className={`font-serif ${l.titleWeight} leading-none overflow-hidden relative ${l.titleItalic ? 'italic' : ''}`}
+                style={{
+                  fontSize: 'clamp(3.2rem,9vw,8.5rem)',
+                  letterSpacing: l.titleUpper ? '0.04em' : '-0.015em',
+                  color: t.text,
+                  textTransform: l.titleUpper ? 'uppercase' : 'none',
+                }}>
                 {['Ola', 'Apokalipsa'].map((word, i) => (
                   <motion.span key={word} className="inline-block"
                     style={{ marginRight: i === 0 ? '0.28em' : 0 }}
@@ -333,17 +534,10 @@ export default function Concept1() {
                     {word}
                   </motion.span>
                 ))}
-                <motion.sup
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: ready ? 1 : 0 }}
+                <motion.sup initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
                   transition={{ duration: 0.8, delay: 0.9, ease }}
                   className="font-sans font-light align-super"
-                  style={{
-                    fontSize: 'clamp(0.7rem,1.4vw,1.4rem)',
-                    letterSpacing: '0.05em',
-                    color: t.accent,
-                    marginLeft: '0.15em',
-                  }}>
+                  style={{ fontSize: 'clamp(0.7rem,1.4vw,1.4rem)', letterSpacing: '0.05em', color: t.accent, marginLeft: '0.15em' }}>
                   ™
                 </motion.sup>
               </h1>
@@ -352,9 +546,19 @@ export default function Concept1() {
                 transition={{ duration: 1.1, delay: 0.8, ease }} className="my-8"
                 style={{ height: 1, width: 140, background: `linear-gradient(90deg,transparent,${t.accent},transparent)`, transformOrigin: 'left' }} />
 
+              {/* tagline below title (Manifesto / Séance) */}
+              {!l.taglineAbove && (
+                <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
+                  transition={{ duration: 0.8, delay: 0.85, ease }}
+                  className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
+                  style={{ color: t.accent }}>
+                  ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
+                </motion.p>
+              )}
+
               <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
                 transition={{ duration: 0.9, delay: 1.0, ease }}
-                className="font-serif italic text-xl md:text-2xl font-light mb-12 max-w-xs"
+                className={`font-serif italic text-xl md:text-2xl font-light mb-12 ${l.heroCenter ? 'max-w-xs' : 'max-w-sm'}`}
                 style={{ color: t.textMuted }}>
                 No vague prophecies.<br />Just the truth.
               </motion.p>
@@ -374,55 +578,57 @@ export default function Concept1() {
           </section>
 
           {/* ABOUT */}
-          <section id="about" className="py-36 px-6 max-w-xl mx-auto text-center">
-            <Reveal>
-              <p className="text-[10px] tracking-[0.45em] uppercase mb-8" style={{ color: t.accent }}>About</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 className="font-serif font-light leading-tight mb-8"
-                style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', color: t.text }}>
-                Twenty years in.<br /><em>Still catching people off guard.</em>
-              </h2>
-            </Reveal>
-            <Reveal delay={0.15}><Divider /></Reveal>
-            <Reveal delay={0.2} className="mt-8">
-              <p className="font-light text-base leading-relaxed" style={{ color: t.textMuted }}>
-                I read tarot and birth charts for people who are done with soft answers.
-                My clients are executives, creatives, and a handful of people you'd recognise
-                from a magazine — none of whom want to be mentioned here.
-                Sessions are private, direct, and sometimes a little too accurate.
-                Based in Warsaw. Regularly in Paris, London and New York.
-                Online for everyone else.
-              </p>
-            </Reveal>
-          </section>
+          {l.aboutCols === 2 ? (
+            <section id="about" className="py-36 px-6 max-w-5xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                <div>
+                  <Reveal><p className="text-[10px] tracking-[0.45em] uppercase mb-8" style={{ color: t.accent }}>About</p></Reveal>
+                  <Reveal delay={0.1}>
+                    <h2 className={`font-serif ${l.titleWeight} leading-tight ${l.titleItalic ? 'italic' : ''}`}
+                      style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', color: t.text, textTransform: l.titleUpper ? 'uppercase' : 'none' }}>
+                      Twenty years in.<br /><em>Still catching people off guard.</em>
+                    </h2>
+                  </Reveal>
+                </div>
+                <div>
+                  <Reveal delay={0.15}><Divider /></Reveal>
+                  <Reveal delay={0.2} className="mt-8">
+                    <p className="font-light text-base leading-relaxed" style={{ color: t.textMuted }}>
+                      I read tarot and birth charts for people who are done with soft answers.
+                      My clients are executives, creatives, and a handful of people you'd recognise
+                      from a magazine — none of whom want to be mentioned here.
+                      Sessions are private, direct, and sometimes a little too accurate.
+                      Based in Warsaw. Regularly in Paris, London and New York.
+                      Online for everyone else.
+                    </p>
+                  </Reveal>
+                </div>
+              </div>
+            </section>
+          ) : (
+            <section id="about" className={`py-36 px-6 max-w-xl mx-auto ${l.aboutAlign === 'right' ? 'text-right' : 'text-center'}`}>
+              <Reveal><p className="text-[10px] tracking-[0.45em] uppercase mb-8" style={{ color: t.accent }}>About</p></Reveal>
+              <Reveal delay={0.1}>
+                <h2 className={`font-serif ${l.titleWeight} leading-tight mb-8 ${l.titleItalic ? 'italic' : ''}`}
+                  style={{ fontSize: 'clamp(2rem,4vw,3.5rem)', color: t.text, textTransform: l.titleUpper ? 'uppercase' : 'none' }}>
+                  Twenty years in.<br /><em>Still catching people off guard.</em>
+                </h2>
+              </Reveal>
+              <Reveal delay={0.15}><Divider /></Reveal>
+              <Reveal delay={0.2} className="mt-8">
+                <p className="font-light text-base leading-relaxed" style={{ color: t.textMuted }}>
+                  I read tarot and birth charts for people who are done with soft answers.
+                  My clients are executives, creatives, and a handful of people you'd recognise
+                  from a magazine — none of whom want to be mentioned here.
+                  Sessions are private, direct, and sometimes a little too accurate.
+                  Based in Warsaw. Regularly in Paris, London and New York.
+                  Online for everyone else.
+                </p>
+              </Reveal>
+            </section>
+          )}
 
-          {/* SERVICES */}
-          <section id="services" className="pb-36 px-6">
-            <Reveal>
-              <p className="text-[10px] tracking-[0.45em] uppercase mb-16 text-center" style={{ color: t.accent }}>Services</p>
-            </Reveal>
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3"
-              style={{ border: `1px solid rgba(${t.rgb},0.14)` }}>
-              {SERVICES.map((s, i) => (
-                <motion.div key={s.num}
-                  initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.7, delay: i * 0.12, ease }}
-                  whileHover={{ boxShadow: `0 0 55px rgba(${t.rgb},0.12), inset 0 0 30px rgba(${t.rgb},0.04)` }}
-                  className="p-10 md:p-12 text-center"
-                  style={{ borderRight: i < 2 ? `1px solid rgba(${t.rgb},0.14)` : 'none', backgroundColor: 'transparent' }}>
-                  <p className="text-2xl mb-1" style={{ color: `rgba(${t.rgb},0.55)` }}>{s.glyph}</p>
-                  <p className="font-serif font-light text-4xl mb-4"
-                    style={{ color: `rgba(${t.rgb},0.14)` }}>{s.num}</p>
-                  <p className="text-[10px] tracking-[0.35em] uppercase mb-2" style={{ color: t.accent }}>{s.sub}</p>
-                  <h3 className="font-serif text-2xl font-light mb-4" style={{ color: t.text }}>{s.name}</h3>
-                  <div className="h-px w-8 mx-auto mb-4" style={{ background: `rgba(${t.rgb},0.4)` }} />
-                  <p className="text-xs tracking-[0.2em]" style={{ color: t.accent }}>{s.price}</p>
-                </motion.div>
-              ))}
-            </div>
-          </section>
+          <ServicesSection />
 
           {/* CONTACT */}
           <section id="contact" className="py-36 px-6"
@@ -470,7 +676,11 @@ export default function Concept1() {
         </motion.div>
       </AnimatePresence>
 
-      <ThemeSwitcher current={themeId} onChange={setThemeId} img={showImg} onToggleImg={() => setShowImg(v => !v)} />
+      <ThemeSwitcher
+        currentTheme={themeId}  onTheme={setThemeId}
+        currentLayout={layoutId} onLayout={setLayoutId}
+        img={showImg} onToggleImg={() => setShowImg(v => !v)} />
+    </LCtx.Provider>
     </Ctx.Provider>
   )
 }
