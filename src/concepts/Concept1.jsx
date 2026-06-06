@@ -12,8 +12,8 @@ const THEMES = [
     bg: '#0A0A0A', bgRgb: '10,10,10',
     accent: '#D4AF37', rgb: '212,175,55',
     text: '#F5F3EE', textMuted: '#C8C6C1', gray: '#787672',
-    // dark gothic smoke / incense burning
-    photo: `${UNSPLASH}/photo-1507992781348-310259076fe0?auto=format&fit=crop&w=1280&q=85`,
+    // Warsaw at night, aerial view
+    photo: `${UNSPLASH}/photo-xVohatU854A?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(30,22,5,0.42)',
     glow: 'radial-gradient(ellipse 55% 45% at 30% 35%, rgba(90,85,70,0.22) 0%, transparent 70%), radial-gradient(ellipse 45% 60% at 72% 68%, rgba(60,55,45,0.18) 0%, transparent 65%)',
   },
