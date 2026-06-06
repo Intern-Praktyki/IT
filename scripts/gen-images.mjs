@@ -324,3 +324,104 @@ function glow(ctx, x, y, r, color, alpha = 0.4) {
 }
 
 console.log('\nDone. Reference as /it/img/{name}.jpg in production.')
+
+// ── 6. Warsaw — city at night ──────────────────────────────────────────────────
+{
+  const cv = createCanvas(W, H), ctx = cv.getContext('2d')
+
+  // deep night sky gradient
+  const sky = ctx.createLinearGradient(0, 0, 0, H)
+  sky.addColorStop(0, '#050508')
+  sky.addColorStop(0.55, '#0A0C12')
+  sky.addColorStop(1, '#1A1208')
+  ctx.fillStyle = sky
+  ctx.fillRect(0, 0, W, H)
+
+  // city glow on horizon — warm amber haze
+  const horizonGlow = ctx.createRadialGradient(W * 0.5, H * 0.72, 0, W * 0.5, H * 0.72, W * 0.7)
+  horizonGlow.addColorStop(0, 'rgba(200,130,30,0.28)')
+  horizonGlow.addColorStop(0.4, 'rgba(160,90,20,0.15)')
+  horizonGlow.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = horizonGlow
+  ctx.fillRect(0, 0, W, H)
+
+  // Palace of Culture silhouette — central spire
+  ctx.fillStyle = '#080810'
+  const drawSpire = (cx, baseY, w, h) => {
+    ctx.beginPath()
+    ctx.moveTo(cx, baseY - h)
+    ctx.lineTo(cx - w * 0.06, baseY - h * 0.75)
+    ctx.lineTo(cx - w * 0.18, baseY - h * 0.6)
+    ctx.lineTo(cx - w * 0.28, baseY - h * 0.45)
+    ctx.lineTo(cx - w * 0.5, baseY - h * 0.32)
+    ctx.lineTo(cx - w * 0.5, baseY)
+    ctx.lineTo(cx + w * 0.5, baseY)
+    ctx.lineTo(cx + w * 0.5, baseY - h * 0.32)
+    ctx.lineTo(cx + w * 0.28, baseY - h * 0.45)
+    ctx.lineTo(cx + w * 0.18, baseY - h * 0.6)
+    ctx.lineTo(cx + w * 0.06, baseY - h * 0.75)
+    ctx.closePath()
+    ctx.fill()
+  }
+  drawSpire(W * 0.5, H * 0.78, 140, 340)
+
+  // surrounding skyline — blocks of varying heights
+  const buildings = [
+    [0, 0.12, 0.76, 0.24], [0.08, 0.18, 0.82, 0.20], [0.14, 0.28, 0.88, 0.22],
+    [0.22, 0.08, 0.72, 0.16], [0.3, 0.14, 0.76, 0.14], [0.38, 0.05, 0.74, 0.12],
+    [0.55, 0.06, 0.76, 0.14], [0.62, 0.12, 0.80, 0.18], [0.70, 0.16, 0.84, 0.22],
+    [0.76, 0.10, 0.78, 0.16], [0.84, 0.20, 0.88, 0.24], [0.90, 0.14, 0.82, 0.18],
+  ]
+  ctx.fillStyle = '#06060E'
+  for (const [x1f, topF, x2f, botF] of buildings) {
+    const bx = W * Math.min(x1f, x2f)
+    const bw = W * Math.abs(x2f - x1f)
+    const by = H * topF
+    const bh = H * (botF - topF)
+    ctx.fillRect(bx, by, bw, bh)
+  }
+
+  // windows — grid of tiny lit squares on buildings
+  for (let i = 0; i < 700; i++) {
+    const wx = Math.random() * W
+    const wy = H * (0.05 + Math.random() * 0.72)
+    const ws = 2 + Math.random() * 3
+    const warm = Math.random() > 0.3
+    const alpha = 0.35 + Math.random() * 0.55
+    ctx.fillStyle = warm
+      ? `rgba(255,${180 + Math.floor(Math.random()*50)},${60 + Math.floor(Math.random()*60)},${alpha})`
+      : `rgba(${180 + Math.floor(Math.random()*60)},${200 + Math.floor(Math.random()*55)},255,${alpha * 0.6})`
+    ctx.fillRect(wx, wy, ws, ws * 1.4)
+  }
+
+  // street light trails — two diagonal streaks
+  for (let trail = 0; trail < 2; trail++) {
+    const side = trail === 0 ? 1 : -1
+    const g = ctx.createLinearGradient(W * 0.5, H * 0.78, W * (0.5 + side * 0.5), H * 0.92)
+    g.addColorStop(0, 'rgba(220,160,40,0.35)')
+    g.addColorStop(1, 'rgba(220,160,40,0)')
+    ctx.fillStyle = g
+    ctx.fillRect(0, H * 0.78, W, H * 0.14)
+  }
+
+  // few bright stars
+  for (let i = 0; i < 120; i++) {
+    const sx = Math.random() * W
+    const sy = Math.random() * H * 0.48
+    ctx.globalAlpha = Math.random() * 0.5
+    ctx.fillStyle = 'rgba(240,245,255,1)'
+    ctx.beginPath()
+    ctx.arc(sx, sy, Math.random() * 0.8, 0, Math.PI * 2)
+    ctx.fill()
+  }
+  ctx.globalAlpha = 1
+
+  // vignette
+  const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.9)
+  vig.addColorStop(0, 'rgba(0,0,0,0)')
+  vig.addColorStop(1, 'rgba(0,0,0,0.72)')
+  ctx.fillStyle = vig
+  ctx.fillRect(0, 0, W, H)
+
+  save(cv, 'warsaw')
+}
