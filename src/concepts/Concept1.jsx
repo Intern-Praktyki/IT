@@ -68,15 +68,15 @@ const useT = () => useContext(Ctx)
 // ── Layouts ───────────────────────────────────────────────────────────────────
 
 const LAYOUTS = [
-  { id: 'monolith', label: 'Monolith', glyph: '◈',
-    heroCenter: true,  titleUpper: false, titleItalic: false, titleWeight: 'font-light',
-    taglineAbove: true,  services: 'grid',  aboutCols: 1, aboutAlign: 'center' },
-  { id: 'grimoire', label: 'Grimoire', glyph: '◇',
-    heroCenter: true,  titleUpper: false, titleItalic: true,  titleWeight: 'font-light',
-    taglineAbove: true,  services: 'cards', aboutCols: 1, aboutAlign: 'center' },
-  { id: 'seance',   label: 'Séance',   glyph: '☽',
-    heroCenter: false, titleUpper: false, titleItalic: true,  titleWeight: 'font-extralight',
-    taglineAbove: false, services: 'rows',  aboutCols: 1, aboutAlign: 'right' },
+  { id: 'monolith', label: 'Monolith', glyph: '◈', heroType: 'center',
+    titleUpper: false, titleItalic: false, titleWeight: 'font-light',
+    services: 'grid',   aboutCols: 1, aboutAlign: 'center' },
+  { id: 'split',    label: 'Split',    glyph: '▌', heroType: 'split',
+    titleUpper: false, titleItalic: false, titleWeight: 'font-light',
+    services: 'strips', aboutCols: 2, aboutAlign: 'left' },
+  { id: 'noir',     label: 'Noir',     glyph: '◆', heroType: 'noir',
+    titleUpper: true,  titleItalic: false, titleWeight: 'font-black',
+    services: 'list',   aboutCols: 1, aboutAlign: 'center' },
 ]
 
 const LCtx = createContext(LAYOUTS[0])
@@ -366,6 +366,294 @@ function ServicesSection() {
   )
 }
 
+// ── Hero variants ─────────────────────────────────────────────────────────────
+
+function HeroMonolith({ ready, showImg }) {
+  const t = useT()
+  return (
+    <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none" style={{ background: t.glow }} />
+
+      <AnimatePresence>
+        {showImg && (
+          <motion.div key={`${t.id}-img`} className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
+            <div className="absolute inset-0" style={{
+              backgroundImage: [t.photo && `url(${t.photo})`, `url(${import.meta.env.BASE_URL}img/${t.imgFile ?? t.id}.jpg)`].filter(Boolean).join(', '),
+              backgroundSize: 'cover', backgroundPosition: 'center',
+              filter: 'brightness(0.42) saturate(1.1)',
+            }} />
+            <div className="absolute inset-0" style={{ background: t.tint }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: `linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(${t.bgRgb},0.7) 75%, rgba(${t.bgRgb},1) 92%)` }} />
+
+      <div className="relative z-10 flex flex-col items-center max-w-5xl w-full mx-auto">
+        <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
+          transition={{ duration: 0.8, delay: 0.2, ease }}
+          className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
+          style={{ color: t.accent }}>
+          ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
+        </motion.p>
+
+        <h1 className="font-serif font-light leading-none overflow-hidden relative"
+          style={{ fontSize: 'clamp(3.2rem,9vw,8.5rem)', letterSpacing: '-0.015em', color: t.text }}>
+          {['Ola', 'Apokalipsa'].map((word, i) => (
+            <motion.span key={word} className="inline-block"
+              style={{ marginRight: i === 0 ? '0.28em' : 0 }}
+              initial={{ opacity: 0, y: '65%' }}
+              animate={{ opacity: ready ? 1 : 0, y: ready ? '0%' : '65%' }}
+              transition={{ duration: 1.1, delay: 0.35 + i * 0.18, ease }}>
+              {word}
+            </motion.span>
+          ))}
+          <motion.sup initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.9, ease }}
+            className="font-sans font-light align-super"
+            style={{ fontSize: 'clamp(0.7rem,1.4vw,1.4rem)', letterSpacing: '0.05em', color: t.accent, marginLeft: '0.15em' }}>
+            ™
+          </motion.sup>
+        </h1>
+
+        <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: ready ? 1 : 0 }}
+          transition={{ duration: 1.1, delay: 0.8, ease }} className="my-8"
+          style={{ height: 1, width: 140, background: `linear-gradient(90deg,transparent,${t.accent},transparent)`, transformOrigin: 'left' }} />
+
+        <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
+          transition={{ duration: 0.9, delay: 1.0, ease }}
+          className="font-serif italic text-xl md:text-2xl font-light mb-12 max-w-xs"
+          style={{ color: t.textMuted }}>
+          No vague prophecies.<br />Just the truth.
+        </motion.p>
+
+        <motion.a href="#contact"
+          initial={{ opacity: 0, y: 15 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
+          transition={{ duration: 0.9, delay: 1.15, ease }}
+          className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase"
+          style={{ border: `1px solid rgba(${t.rgb},0.35)`, color: t.accent }}>
+          <span className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"
+            style={{ background: t.accent }} />
+          <span className="relative transition-colors duration-500 group-hover:text-[#0A0A0A]">Book a Session</span>
+        </motion.a>
+      </div>
+
+      <CitiesTicker />
+    </section>
+  )
+}
+
+function HeroSplit({ ready, showImg }) {
+  const t = useT()
+  return (
+    <section className="relative min-h-screen flex pt-20 overflow-hidden">
+      {/* Left: full-height photo panel */}
+      <div className="relative hidden md:block flex-shrink-0" style={{ width: '44%' }}>
+        <AnimatePresence>
+          {showImg && (
+            <motion.div key={`${t.id}-img`} className="absolute inset-0 pointer-events-none"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
+              <div className="absolute inset-0" style={{
+                backgroundImage: [t.photo && `url(${t.photo})`, `url(${import.meta.env.BASE_URL}img/${t.imgFile ?? t.id}.jpg)`].filter(Boolean).join(', '),
+                backgroundSize: 'cover', backgroundPosition: 'center',
+                filter: 'brightness(0.55) saturate(1.2)',
+              }} />
+              <div className="absolute inset-0" style={{ background: t.tint, opacity: 0.65 }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Right edge gradient to soften border */}
+        <div className="absolute inset-y-0 right-0 w-20 pointer-events-none"
+          style={{ background: `linear-gradient(to right, transparent, rgba(${t.bgRgb},0.9))` }} />
+
+        {/* Vertical text on left edge */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+          transition={{ duration: 1, delay: 1.3 }}
+          className="absolute left-5 top-1/2 pointer-events-none"
+          style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)',
+            fontSize: '8px', letterSpacing: '0.5em', textTransform: 'uppercase', color: `rgba(${t.rgb},0.35)` }}>
+          Tarot · Astrology · Apokalipsa
+        </motion.div>
+
+        {/* Corner esoteric glyph */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: 1.5 }}
+          className="absolute bottom-8 right-8 text-4xl pointer-events-none"
+          style={{ color: `rgba(${t.rgb},0.25)` }}>
+          ☽
+        </motion.div>
+      </div>
+
+      {/* Vertical rule */}
+      <div className="hidden md:block w-px flex-shrink-0" style={{ background: `rgba(${t.rgb},0.2)` }} />
+
+      {/* Right: text panel */}
+      <div className="flex-1 flex flex-col justify-center px-10 md:px-16 xl:px-20 py-20 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: t.glow }} />
+
+        <div className="relative z-10 max-w-xl">
+          <motion.p initial={{ opacity: 0, x: 20 }} animate={{ opacity: ready ? 1 : 0, x: ready ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.2, ease }}
+            className="text-[9px] tracking-[0.55em] uppercase mb-12 font-light"
+            style={{ color: `rgba(${t.rgb},0.5)` }}>
+            ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
+          </motion.p>
+
+          <h1 className="font-serif font-light leading-none mb-6"
+            style={{ letterSpacing: '-0.01em', color: t.text }}>
+            {['Ola', 'Apokalipsa'].map((word, i) => (
+              <div key={word} className="overflow-hidden">
+                <motion.div
+                  initial={{ y: '105%' }} animate={{ y: ready ? '0%' : '105%' }}
+                  transition={{ duration: 1.1, delay: 0.3 + i * 0.2, ease }}>
+                  <span style={{ fontSize: 'clamp(3rem,5.5vw,6rem)', display: 'block' }}>
+                    {word}
+                    {i === 1 && (
+                      <motion.sup initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+                        transition={{ duration: 0.6, delay: 0.9, ease }}
+                        className="font-sans font-light align-super"
+                        style={{ fontSize: 'clamp(0.6rem,1.1vw,1.1rem)', letterSpacing: '0.05em', color: t.accent, marginLeft: '0.15em' }}>
+                        ™
+                      </motion.sup>
+                    )}
+                  </span>
+                </motion.div>
+              </div>
+            ))}
+          </h1>
+
+          <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: ready ? 1 : 0 }}
+            transition={{ duration: 1.0, delay: 0.85, ease }} className="mb-9"
+            style={{ height: 1, width: 90, background: `linear-gradient(90deg,${t.accent},transparent)`, transformOrigin: 'left' }} />
+
+          <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
+            transition={{ duration: 0.9, delay: 1.0, ease }}
+            className="font-serif italic text-lg md:text-xl font-light mb-10"
+            style={{ color: t.textMuted }}>
+            No vague prophecies.<br />Just the truth.
+          </motion.p>
+
+          <motion.a href="#contact"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
+            transition={{ duration: 0.9, delay: 1.15, ease }}
+            className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase"
+            style={{ border: `1px solid rgba(${t.rgb},0.35)`, color: t.accent }}>
+            <span className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"
+              style={{ background: t.accent }} />
+            <span className="relative transition-colors duration-500 group-hover:text-[#0A0A0A]">Book a Session</span>
+          </motion.a>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+            transition={{ duration: 1, delay: 1.4 }}
+            className="mt-16 flex items-center gap-2 flex-wrap">
+            {['Warsaw', 'Paris', 'London', 'New York'].map((city, i) => (
+              <span key={city} className="flex items-center gap-2">
+                {i > 0 && <span style={{ color: `rgba(${t.rgb},0.2)`, fontSize: 8 }}>✦</span>}
+                <span className="text-[8px] tracking-[0.4em] uppercase" style={{ color: `rgba(${t.rgb},0.3)` }}>{city}</span>
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function HeroNoir({ ready, showImg }) {
+  const t = useT()
+  return (
+    <section className="relative min-h-screen flex flex-col justify-end px-8 md:px-16 pb-24 pt-20 overflow-hidden">
+      {/* Near-invisible photo — just texture and darkness */}
+      <AnimatePresence>
+        {showImg && (
+          <motion.div key={`${t.id}-img`} className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
+            <div className="absolute inset-0" style={{
+              backgroundImage: [t.photo && `url(${t.photo})`, `url(${import.meta.env.BASE_URL}img/${t.imgFile ?? t.id}.jpg)`].filter(Boolean).join(', '),
+              backgroundSize: 'cover', backgroundPosition: 'center',
+              filter: 'brightness(0.1) saturate(0.3) contrast(1.8)',
+            }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="absolute inset-0 pointer-events-none" style={{ background: t.glow, opacity: 0.3 }} />
+
+      {/* Top info bar */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+        transition={{ duration: 0.9, delay: 0.1, ease }}
+        className="absolute top-24 left-8 md:left-16 right-8 md:right-16 flex items-center justify-between z-10">
+        <span className="text-[9px] tracking-[0.55em] uppercase" style={{ color: `rgba(${t.rgb},0.38)` }}>
+          Tarot · Astrology · Private Consultations
+        </span>
+        <span className="hidden md:block text-[9px] tracking-[0.4em] uppercase" style={{ color: `rgba(${t.rgb},0.28)` }}>
+          Warsaw ✦ Paris ✦ London
+        </span>
+      </motion.div>
+
+      {/* Massive title block */}
+      <div className="relative z-10">
+        <div className="overflow-hidden">
+          <motion.div initial={{ y: '110%' }} animate={{ y: ready ? '0%' : '110%' }}
+            transition={{ duration: 1.1, delay: 0.28, ease }}>
+            <h1 className="font-serif font-black uppercase"
+              style={{ fontSize: 'clamp(4.5rem,14vw,16rem)', color: t.text, letterSpacing: '-0.03em', lineHeight: 0.88 }}>
+              OLA
+            </h1>
+          </motion.div>
+        </div>
+
+        <div className="overflow-hidden">
+          <motion.div initial={{ y: '110%' }} animate={{ y: ready ? '0%' : '110%' }}
+            transition={{ duration: 1.1, delay: 0.46, ease }}>
+            <div className="flex items-end gap-2 md:gap-4">
+              <h1 className="font-serif font-black uppercase"
+                style={{ fontSize: 'clamp(4.5rem,14vw,16rem)', color: t.text, letterSpacing: '-0.03em', lineHeight: 0.88 }}>
+                APOKALIPSA
+              </h1>
+              <motion.sup initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
+                transition={{ duration: 0.6, delay: 1.0, ease }}
+                className="font-sans font-black tracking-wide mb-1 md:mb-2 flex-shrink-0"
+                style={{ fontSize: 'clamp(1rem,2.2vw,2.5rem)', color: t.accent }}>
+                ™
+              </motion.sup>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Full-width accent rule */}
+        <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: ready ? 1 : 0 }}
+          transition={{ duration: 1.3, delay: 0.85, ease }}
+          className="mt-5 mb-8"
+          style={{ height: 2, background: t.accent, transformOrigin: 'left' }} />
+
+        {/* Bottom row: copy + CTA */}
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 12 }}
+            transition={{ duration: 0.9, delay: 1.0, ease }}
+            className="font-serif italic text-xl md:text-2xl font-light"
+            style={{ color: t.textMuted }}>
+            No vague prophecies.<br />Just the truth.
+          </motion.p>
+
+          <motion.a href="#contact"
+            initial={{ opacity: 0, x: 20 }} animate={{ opacity: ready ? 1 : 0, x: ready ? 0 : 20 }}
+            transition={{ duration: 0.9, delay: 1.15, ease }}
+            className="group inline-flex items-center gap-4 text-[11px] tracking-[0.4em] uppercase flex-shrink-0"
+            style={{ color: t.accent }}>
+            <span>Book a Session</span>
+            <motion.span animate={{ x: 0 }} whileHover={{ x: 6 }} transition={{ duration: 0.25 }}>→</motion.span>
+          </motion.a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ── Theme Switcher ────────────────────────────────────────────────────────────
 
 function ThemeSwitcher({ currentTheme, onTheme, currentLayout, onLayout, img, onToggleImg }) {
@@ -479,96 +767,9 @@ export default function Concept1() {
           </nav>
 
           {/* HERO */}
-          <section className={`relative min-h-screen flex flex-col justify-center px-6 ${l.heroCenter ? 'items-center text-center' : 'items-start text-left md:pl-20'} pt-20 overflow-hidden`}>
-            <div className="absolute inset-0 pointer-events-none" style={{ background: t.glow }} />
-
-            <AnimatePresence>
-              {showImg && (
-                <motion.div key={`${themeId}-img`} className="absolute inset-0 pointer-events-none"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
-                  <div className="absolute inset-0" style={{
-                    backgroundImage: [t.photo && `url(${t.photo})`, `url(${import.meta.env.BASE_URL}img/${t.imgFile ?? t.id}.jpg)`].filter(Boolean).join(', '),
-                    backgroundSize: 'cover', backgroundPosition: 'center',
-                    filter: 'brightness(0.42) saturate(1.1)',
-                  }} />
-                  <div className="absolute inset-0" style={{ background: t.tint }} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <div className="absolute inset-0 pointer-events-none"
-              style={{ background: `linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(${t.bgRgb},0.7) 75%, rgba(${t.bgRgb},1) 92%)` }} />
-
-            <div className={`relative z-10 flex flex-col ${l.heroCenter ? 'items-center' : 'items-start'} max-w-5xl w-full ${l.heroCenter ? 'mx-auto' : ''}`}>
-
-              {/* tagline above title */}
-              {l.taglineAbove && (
-                <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease }}
-                  className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
-                  style={{ color: t.accent }}>
-                  ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
-                </motion.p>
-              )}
-
-              <h1 className={`font-serif ${l.titleWeight} leading-none overflow-hidden relative ${l.titleItalic ? 'italic' : ''}`}
-                style={{
-                  fontSize: 'clamp(3.2rem,9vw,8.5rem)',
-                  letterSpacing: l.titleUpper ? '0.04em' : '-0.015em',
-                  color: t.text,
-                  textTransform: l.titleUpper ? 'uppercase' : 'none',
-                }}>
-                {['Ola', 'Apokalipsa'].map((word, i) => (
-                  <motion.span key={word} className="inline-block"
-                    style={{ marginRight: i === 0 ? '0.28em' : 0 }}
-                    initial={{ opacity: 0, y: '65%' }}
-                    animate={{ opacity: ready ? 1 : 0, y: ready ? '0%' : '65%' }}
-                    transition={{ duration: 1.1, delay: 0.35 + i * 0.18, ease }}>
-                    {word}
-                  </motion.span>
-                ))}
-                <motion.sup initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
-                  transition={{ duration: 0.8, delay: 0.9, ease }}
-                  className="font-sans font-light align-super"
-                  style={{ fontSize: 'clamp(0.7rem,1.4vw,1.4rem)', letterSpacing: '0.05em', color: t.accent, marginLeft: '0.15em' }}>
-                  ™
-                </motion.sup>
-              </h1>
-
-              <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: ready ? 1 : 0 }}
-                transition={{ duration: 1.1, delay: 0.8, ease }} className="my-8"
-                style={{ height: 1, width: 140, background: `linear-gradient(90deg,transparent,${t.accent},transparent)`, transformOrigin: 'left' }} />
-
-              {/* tagline below title (Manifesto / Séance) */}
-              {!l.taglineAbove && (
-                <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
-                  transition={{ duration: 0.8, delay: 0.85, ease }}
-                  className="text-[10px] tracking-[0.45em] uppercase mb-10 font-light"
-                  style={{ color: t.accent }}>
-                  ☽ &nbsp; Tarot · Astrology · Private Consultations &nbsp; ☽
-                </motion.p>
-              )}
-
-              <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
-                transition={{ duration: 0.9, delay: 1.0, ease }}
-                className={`font-serif italic text-xl md:text-2xl font-light mb-12 ${l.heroCenter ? 'max-w-xs' : 'max-w-sm'}`}
-                style={{ color: t.textMuted }}>
-                No vague prophecies.<br />Just the truth.
-              </motion.p>
-
-              <motion.a href="#contact"
-                initial={{ opacity: 0, y: 15 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 15 }}
-                transition={{ duration: 0.9, delay: 1.15, ease }}
-                className="group relative inline-block overflow-hidden px-10 py-4 text-[10px] tracking-[0.35em] uppercase"
-                style={{ border: `1px solid rgba(${t.rgb},0.35)`, color: t.accent }}>
-                <span className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"
-                  style={{ background: t.accent }} />
-                <span className="relative transition-colors duration-500 group-hover:text-[#0A0A0A]">Book a Session</span>
-              </motion.a>
-            </div>
-
-            <CitiesTicker />
-          </section>
+          {l.heroType === 'center' && <HeroMonolith ready={ready} showImg={showImg} />}
+          {l.heroType === 'split'  && <HeroSplit   ready={ready} showImg={showImg} />}
+          {l.heroType === 'noir'   && <HeroNoir    ready={ready} showImg={showImg} />}
 
           {/* ABOUT */}
           {l.aboutCols === 2 ? (
