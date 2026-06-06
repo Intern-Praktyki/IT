@@ -12,8 +12,8 @@ const THEMES = [
     bg: '#0A0A0A', bgRgb: '10,10,10',
     accent: '#D4AF37', rgb: '212,175,55',
     text: '#F5F3EE', textMuted: '#C8C6C1', gray: '#787672',
-    // crystal ball with smoke
-    photo: `${UNSPLASH}/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1280&q=85`,
+    // dark gothic smoke / incense burning
+    photo: `${UNSPLASH}/photo-1507992781348-310259076fe0?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(30,22,5,0.42)',
     glow: 'radial-gradient(ellipse 55% 45% at 30% 35%, rgba(90,85,70,0.22) 0%, transparent 70%), radial-gradient(ellipse 45% 60% at 72% 68%, rgba(60,55,45,0.18) 0%, transparent 65%)',
   },
@@ -23,8 +23,8 @@ const THEMES = [
     bg: '#09060F', bgRgb: '9,6,15',
     accent: '#9B72CF', rgb: '155,114,207',
     text: '#F2EEF8', textMuted: '#C8C0D8', gray: '#7A7080',
-    // amethyst crystals
-    photo: `${UNSPLASH}/photo-1515405295579-ba7b45403062?auto=format&fit=crop&w=1280&q=85`,
+    // tarot cards spread on dark velvet
+    photo: `${UNSPLASH}/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(65,12,115,0.52)',
     glow: 'radial-gradient(ellipse 60% 55% at 35% 40%, rgba(120,50,200,0.28) 0%, transparent 70%), radial-gradient(ellipse 40% 50% at 68% 25%, rgba(80,30,150,0.2) 0%, transparent 60%)',
   },
@@ -34,8 +34,8 @@ const THEMES = [
     bg: '#060D07', bgRgb: '6,13,7',
     accent: '#5E9E70', rgb: '94,158,112',
     text: '#EDF5EE', textMuted: '#B2CBB5', gray: '#5E7360',
-    // green herbs and botanical apothecary
-    photo: `${UNSPLASH}/photo-1540390769625-2fc3f8b1d50c?auto=format&fit=crop&w=1280&q=85`,
+    // dark misty ancient forest
+    photo: `${UNSPLASH}/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(5,48,12,0.48)',
     glow: 'radial-gradient(ellipse 55% 65% at 25% 55%, rgba(20,90,35,0.3) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 75% 30%, rgba(15,70,25,0.2) 0%, transparent 60%)',
   },
@@ -69,21 +69,15 @@ const useT = () => useContext(Ctx)
 // ── Layouts ───────────────────────────────────────────────────────────────────
 
 const LAYOUTS = [
-  { id: 'monolith',  label: 'Monolith',  glyph: '◈',
+  { id: 'monolith', label: 'Monolith', glyph: '◈',
     heroCenter: true,  titleUpper: false, titleItalic: false, titleWeight: 'font-light',
-    taglineAbove: true,  services: 'grid',   aboutCols: 1, aboutAlign: 'center' },
-  { id: 'manifesto', label: 'Manifesto', glyph: '▲',
-    heroCenter: false, titleUpper: true,  titleItalic: false, titleWeight: 'font-thin',
-    taglineAbove: false, services: 'strips', aboutCols: 2, aboutAlign: 'left' },
-  { id: 'grimoire',  label: 'Grimoire',  glyph: '◇',
+    taglineAbove: true,  services: 'grid',  aboutCols: 1, aboutAlign: 'center' },
+  { id: 'grimoire', label: 'Grimoire', glyph: '◇',
     heroCenter: true,  titleUpper: false, titleItalic: true,  titleWeight: 'font-light',
-    taglineAbove: true,  services: 'cards',  aboutCols: 1, aboutAlign: 'center' },
-  { id: 'oracle',    label: 'Oracle',    glyph: '⊕',
-    heroCenter: true,  titleUpper: true,  titleItalic: false, titleWeight: 'font-bold',
-    taglineAbove: true,  services: 'list',   aboutCols: 1, aboutAlign: 'center' },
-  { id: 'seance',    label: 'Séance',    glyph: '☽',
+    taglineAbove: true,  services: 'cards', aboutCols: 1, aboutAlign: 'center' },
+  { id: 'seance',   label: 'Séance',   glyph: '☽',
     heroCenter: false, titleUpper: false, titleItalic: true,  titleWeight: 'font-extralight',
-    taglineAbove: false, services: 'rows',   aboutCols: 1, aboutAlign: 'right' },
+    taglineAbove: false, services: 'rows',  aboutCols: 1, aboutAlign: 'right' },
 ]
 
 const LCtx = createContext(LAYOUTS[0])
