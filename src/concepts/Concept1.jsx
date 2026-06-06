@@ -74,9 +74,6 @@ const LAYOUTS = [
   { id: 'split',    label: 'Split',    glyph: '▌', heroType: 'split',
     titleUpper: false, titleItalic: false, titleWeight: 'font-light',
     services: 'strips', aboutCols: 2, aboutAlign: 'left' },
-  { id: 'noir',     label: 'Noir',     glyph: '◆', heroType: 'noir',
-    titleUpper: true,  titleItalic: false, titleWeight: 'font-black',
-    services: 'list',   aboutCols: 1, aboutAlign: 'center' },
 ]
 
 const LCtx = createContext(LAYOUTS[0])
@@ -562,98 +559,6 @@ function HeroSplit({ ready, showImg }) {
   )
 }
 
-function HeroNoir({ ready, showImg }) {
-  const t = useT()
-  return (
-    <section className="relative min-h-screen flex flex-col justify-end px-8 md:px-16 pb-24 pt-20 overflow-hidden">
-      {/* Near-invisible photo — just texture and darkness */}
-      <AnimatePresence>
-        {showImg && (
-          <motion.div key={`${t.id}-img`} className="absolute inset-0 pointer-events-none"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }}>
-            <div className="absolute inset-0" style={{
-              backgroundImage: [t.photo && `url(${t.photo})`, `url(${import.meta.env.BASE_URL}img/${t.imgFile ?? t.id}.jpg)`].filter(Boolean).join(', '),
-              backgroundSize: 'cover', backgroundPosition: 'center',
-              filter: 'brightness(0.1) saturate(0.3) contrast(1.8)',
-            }} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="absolute inset-0 pointer-events-none" style={{ background: t.glow, opacity: 0.3 }} />
-
-      {/* Top info bar */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
-        transition={{ duration: 0.9, delay: 0.1, ease }}
-        className="absolute top-24 left-8 md:left-16 right-8 md:right-16 flex items-center justify-between z-10">
-        <span className="text-[9px] tracking-[0.55em] uppercase" style={{ color: `rgba(${t.rgb},0.38)` }}>
-          Tarot · Astrology · Private Consultations
-        </span>
-        <span className="hidden md:block text-[9px] tracking-[0.4em] uppercase" style={{ color: `rgba(${t.rgb},0.28)` }}>
-          Warsaw ✦ Paris ✦ London
-        </span>
-      </motion.div>
-
-      {/* Massive title block */}
-      <div className="relative z-10">
-        <div className="overflow-hidden">
-          <motion.div initial={{ y: '110%' }} animate={{ y: ready ? '0%' : '110%' }}
-            transition={{ duration: 1.1, delay: 0.28, ease }}>
-            <h1 className="font-serif font-black uppercase"
-              style={{ fontSize: 'clamp(4.5rem,14vw,16rem)', color: t.text, letterSpacing: '-0.03em', lineHeight: 0.88 }}>
-              OLA
-            </h1>
-          </motion.div>
-        </div>
-
-        <div className="overflow-hidden">
-          <motion.div initial={{ y: '110%' }} animate={{ y: ready ? '0%' : '110%' }}
-            transition={{ duration: 1.1, delay: 0.46, ease }}>
-            <div className="flex items-end gap-2 md:gap-4">
-              <h1 className="font-serif font-black uppercase"
-                style={{ fontSize: 'clamp(4.5rem,14vw,16rem)', color: t.text, letterSpacing: '-0.03em', lineHeight: 0.88 }}>
-                APOKALIPSA
-              </h1>
-              <motion.sup initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }}
-                transition={{ duration: 0.6, delay: 1.0, ease }}
-                className="font-sans font-black tracking-wide mb-1 md:mb-2 flex-shrink-0"
-                style={{ fontSize: 'clamp(1rem,2.2vw,2.5rem)', color: t.accent }}>
-                ™
-              </motion.sup>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Full-width accent rule */}
-        <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: ready ? 1 : 0 }}
-          transition={{ duration: 1.3, delay: 0.85, ease }}
-          className="mt-5 mb-8"
-          style={{ height: 2, background: t.accent, transformOrigin: 'left' }} />
-
-        {/* Bottom row: copy + CTA */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 12 }}
-            transition={{ duration: 0.9, delay: 1.0, ease }}
-            className="font-serif italic text-xl md:text-2xl font-light"
-            style={{ color: t.textMuted }}>
-            No vague prophecies.<br />Just the truth.
-          </motion.p>
-
-          <motion.a href="#contact"
-            initial={{ opacity: 0, x: 20 }} animate={{ opacity: ready ? 1 : 0, x: ready ? 0 : 20 }}
-            transition={{ duration: 0.9, delay: 1.15, ease }}
-            className="group inline-flex items-center gap-4 text-[11px] tracking-[0.4em] uppercase flex-shrink-0"
-            style={{ color: t.accent }}>
-            <span>Book a Session</span>
-            <motion.span animate={{ x: 0 }} whileHover={{ x: 6 }} transition={{ duration: 0.25 }}>→</motion.span>
-          </motion.a>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ── Theme Switcher ────────────────────────────────────────────────────────────
 
 function ThemeSwitcher({ currentTheme, onTheme, currentLayout, onLayout, img, onToggleImg }) {
@@ -769,7 +674,6 @@ export default function Concept1() {
           {/* HERO */}
           {l.heroType === 'center' && <HeroMonolith ready={ready} showImg={showImg} />}
           {l.heroType === 'split'  && <HeroSplit   ready={ready} showImg={showImg} />}
-          {l.heroType === 'noir'   && <HeroNoir    ready={ready} showImg={showImg} />}
 
           {/* ABOUT */}
           {l.aboutCols === 2 ? (
