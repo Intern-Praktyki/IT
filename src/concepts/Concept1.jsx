@@ -12,7 +12,8 @@ const THEMES = [
     bg: '#0A0A0A', bgRgb: '10,10,10',
     accent: '#D4AF37', rgb: '212,175,55',
     text: '#F5F3EE', textMuted: '#C8C6C1', gray: '#787672',
-    photo: `${UNSPLASH}/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1280&q=85`,
+    // crystal ball with smoke
+    photo: `${UNSPLASH}/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(30,22,5,0.42)',
     glow: 'radial-gradient(ellipse 55% 45% at 30% 35%, rgba(90,85,70,0.22) 0%, transparent 70%), radial-gradient(ellipse 45% 60% at 72% 68%, rgba(60,55,45,0.18) 0%, transparent 65%)',
   },
@@ -22,7 +23,8 @@ const THEMES = [
     bg: '#09060F', bgRgb: '9,6,15',
     accent: '#9B72CF', rgb: '155,114,207',
     text: '#F2EEF8', textMuted: '#C8C0D8', gray: '#7A7080',
-    photo: `${UNSPLASH}/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1280&q=85`,
+    // amethyst crystals
+    photo: `${UNSPLASH}/photo-1515405295579-ba7b45403062?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(65,12,115,0.52)',
     glow: 'radial-gradient(ellipse 60% 55% at 35% 40%, rgba(120,50,200,0.28) 0%, transparent 70%), radial-gradient(ellipse 40% 50% at 68% 25%, rgba(80,30,150,0.2) 0%, transparent 60%)',
   },
@@ -32,7 +34,8 @@ const THEMES = [
     bg: '#060D07', bgRgb: '6,13,7',
     accent: '#5E9E70', rgb: '94,158,112',
     text: '#EDF5EE', textMuted: '#B2CBB5', gray: '#5E7360',
-    photo: `${UNSPLASH}/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1280&q=85`,
+    // green herbs and botanical apothecary
+    photo: `${UNSPLASH}/photo-1540390769625-2fc3f8b1d50c?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(5,48,12,0.48)',
     glow: 'radial-gradient(ellipse 55% 65% at 25% 55%, rgba(20,90,35,0.3) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 75% 30%, rgba(15,70,25,0.2) 0%, transparent 60%)',
   },
@@ -42,6 +45,7 @@ const THEMES = [
     bg: '#0D0708', bgRgb: '13,7,8',
     accent: '#C27A82', rgb: '194,122,130',
     text: '#F5EEEF', textMuted: '#CDB8BB', gray: '#7A6065',
+    // tarot cards and candles on dark velvet
     photo: `${UNSPLASH}/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(110,30,35,0.42)',
     glow: 'radial-gradient(ellipse 50% 60% at 50% 55%, rgba(180,70,60,0.22) 0%, transparent 65%), radial-gradient(ellipse 60% 40% at 25% 30%, rgba(150,50,40,0.15) 0%, transparent 60%)',
@@ -52,7 +56,8 @@ const THEMES = [
     bg: '#060810', bgRgb: '6,8,16',
     accent: '#A8B8CC', rgb: '168,184,204',
     text: '#ECF1F8', textMuted: '#B5C2D0', gray: '#5E6878',
-    photo: `${UNSPLASH}/photo-1419242902214-272b3f66ee7a?auto=format&fit=crop&w=1280&q=85`,
+    // full moon over water
+    photo: `${UNSPLASH}/photo-1502134249126-9f3755a50d78?auto=format&fit=crop&w=1280&q=85`,
     tint: 'rgba(8,18,60,0.48)',
     glow: 'radial-gradient(ellipse 35% 35% at 65% 22%, rgba(180,200,240,0.25) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 35% 65%, rgba(30,40,100,0.2) 0%, transparent 70%)',
   },
